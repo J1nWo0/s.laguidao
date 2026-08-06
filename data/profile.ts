@@ -4,6 +4,8 @@ export const PROFILE = {
   name: "s.laguidao",
   fullName: "Sherwin S. Laguidao",
   initials: "SL",
+  /** Served from `public/`; kept local so the static export has no CDN dependency. */
+  avatar: "/profile.jpg",
   role: "Full-Stack Developer",
   /** Cycled through by the hero headline. */
   roles: [

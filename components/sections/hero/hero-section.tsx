@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import { Container } from "@/components/common/container";
 import { sectionHeadingId } from "@/components/common/section";
 import { TechList } from "@/components/common/tech-list";
@@ -27,21 +29,35 @@ export function HeroSection() {
             <div className="flex flex-col gap-4">
               <BootPrompt step={0} command="whoami" />
 
-              <BootReveal step={0} className="flex flex-col gap-2">
-                <h1
-                  id={sectionHeadingId("hero")}
-                  className="text-2xl leading-tight sm:text-3xl"
-                >
-                  {PROFILE.fullName}
-                </h1>
+              <BootReveal
+                step={0}
+                className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-6"
+              >
+                <Image
+                  src={PROFILE.avatar}
+                  alt={`Portrait of ${PROFILE.fullName}`}
+                  width={400}
+                  height={400}
+                  priority
+                  className="size-20 shrink-0 border border-border object-cover sm:size-24"
+                />
 
-                <p className="text-xs text-muted-foreground sm:text-sm">
-                  {PROFILE.roles.join(" \u00b7 ")}
-                </p>
+                <div className="flex flex-col gap-2">
+                  <h1
+                    id={sectionHeadingId("hero")}
+                    className="text-2xl leading-tight sm:text-3xl"
+                  >
+                    {PROFILE.fullName}
+                  </h1>
 
-                <p className="text-xs text-muted-foreground">
-                  {PROFILE.location} &#183; {PROFILE.timezone}
-                </p>
+                  <p className="text-xs text-muted-foreground sm:text-sm">
+                    {PROFILE.roles.join(" \u00b7 ")}
+                  </p>
+
+                  <p className="text-xs text-muted-foreground">
+                    {PROFILE.location} &#183; {PROFILE.timezone}
+                  </p>
+                </div>
               </BootReveal>
             </div>
 
