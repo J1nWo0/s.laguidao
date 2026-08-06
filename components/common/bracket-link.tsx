@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { cn } from "@/lib/utils";
 
 const wrapper =
@@ -45,6 +47,19 @@ export function BracketLink({
     >
       <BracketContent external={external}>{children}</BracketContent>
     </a>
+  );
+}
+
+/** Same shape, routed through `next/link` so `basePath` is applied. */
+export function BracketRouteLink({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<typeof Link>) {
+  return (
+    <Link className={cn(wrapper, className)} {...props}>
+      <BracketContent>{children}</BracketContent>
+    </Link>
   );
 }
 
