@@ -62,6 +62,7 @@ export type Project = {
   links: {
     live?: string;
     source?: string;
+    docs?: string;
   };
 };
 

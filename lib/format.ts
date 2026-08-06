@@ -67,6 +67,31 @@ export function slugify(value: string): string {
     .replace(/^-|-$/g, "");
 }
 
+/**
+ * Rewrites share links from the common document hosts into the form they allow
+ * inside an iframe. Unknown hosts pass through untouched — they may still refuse
+ * to be framed, which is why the viewer always offers the direct link too.
+ */
+export function toEmbedUrl(url: string): string {
+  const drive = url.match(/drive\.google\.com\/file\/d\/([^/?#]+)/);
+  if (drive) return `https://drive.google.com/file/d/${drive[1]}/preview`;
+
+  const workspace = url.match(
+    /docs\.google\.com\/(document|presentation|spreadsheets)\/d\/([^/?#]+)/,
+  );
+  if (workspace) {
+    return `https://docs.google.com/${workspace[1]}/d/${workspace[2]}/preview`;
+  }
+
+  if (url.includes("dropbox.com")) {
+    const raw = url.replace(/([?&])dl=\d\b/, "$1raw=1");
+    if (raw !== url) return raw;
+    return `${url}${url.includes("?") ? "&" : "?"}raw=1`;
+  }
+
+  return url;
+}
+
 /** Strips the protocol and trailing slash so URLs read well as link labels. */
 export function formatUrlLabel(url: string): string {
   return url.replace(/^https?:\/\//, "").replace(/\/$/, "");

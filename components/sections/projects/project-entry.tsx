@@ -1,7 +1,9 @@
 import { BracketLink } from "@/components/common/bracket-link";
+import { PdfDialog } from "@/components/common/pdf-dialog";
 import { MetaRow } from "@/components/common/section";
 import { TechList } from "@/components/common/tech-list";
 import { TreeList } from "@/components/common/tree-list";
+import { slugify } from "@/lib/format";
 import type { Project } from "@/types";
 
 export function ProjectEntry({
@@ -11,7 +13,7 @@ export function ProjectEntry({
   project: Project;
   index: string;
 }) {
-  const { live, source } = project.links;
+  const { live, source, docs } = project.links;
 
   return (
     <li className="rule-dashed py-8 first:border-t-0 first:pt-0">
@@ -38,7 +40,7 @@ export function ProjectEntry({
 
         <TechList items={project.stack} className="mt-4" />
 
-        {live || source ? (
+        {live || source || docs ? (
           <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
             {live ? (
               <BracketLink href={live} external>
@@ -49,6 +51,13 @@ export function ProjectEntry({
               <BracketLink href={source} external>
                 source
               </BracketLink>
+            ) : null}
+            {docs ? (
+              <PdfDialog
+                url={docs}
+                fileName={`${slugify(project.name)}.pdf`}
+                label={`${project.name} documentation`}
+              />
             ) : null}
           </div>
         ) : null}

@@ -16,6 +16,7 @@ export const PROJECTS: readonly Project[] = [
     stack: ["Next.js", "React", "Node.js", "Solidity", "CSS"],
     links: {
       live: "https://mediverse-dyiscoverers.vercel.app/",
+      docs: "https://drive.google.com/file/d/1qg0xOnIrg08JPtOPzaFapj6TCQnTtHmL/view?usp=drive_link",
     },
   },
   {
@@ -34,8 +35,8 @@ export const PROJECTS: readonly Project[] = [
     ],
     stack: ["Python", "PyGame", "NumPy", "Pandas", "Pulp"],
     links: {
-      // live: "https://killer-sudoku-solver-dyiscoverers.vercel.app/",
       source: "https://github.com/J1nWo0/Killer-Sudoku-Solver-For-9x9_4x4",
+      docs: "https://drive.google.com/file/d/1a9_7yfo9c_dDXkCr3ng2BOaiv8kYsBvY/view?usp=drive_link",
     },
   }
 ] as const;

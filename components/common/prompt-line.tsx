@@ -14,6 +14,16 @@ export function Caret({ className }: { className?: string }) {
   );
 }
 
+/** `guest@s.laguidao:~$` on its own, for places that need their own wrapper. */
+export function PromptChrome({ className }: { className?: string }) {
+  return (
+    <span aria-hidden className={cn("text-muted-foreground", className)}>
+      guest@{PROFILE.name}:~
+      <span className="text-term">$</span>
+    </span>
+  );
+}
+
 type PromptLineProps = {
   /** The typed command, e.g. `"cat about.txt"`. Omit for a bare prompt. */
   command?: string;
@@ -30,10 +40,7 @@ type PromptLineProps = {
 export function PromptLine({ command, caret = false, className }: PromptLineProps) {
   return (
     <p className={cn("flex flex-wrap items-baseline gap-x-2 text-sm", className)}>
-      <span aria-hidden className="text-muted-foreground">
-        guest@{PROFILE.name}:~
-        <span className="text-term">$</span>
-      </span>
+      <PromptChrome />
 
       {command ? <span className="text-foreground">{command}</span> : null}
       {caret ? <Caret /> : null}
