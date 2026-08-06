@@ -11,8 +11,8 @@ export const PROFILE = {
 	roles: [
 		"Full-Stack Developer",
 		"Backend Engineer",
-		"Automation Engineer",
-		"AI Integrator",
+		"AI Engineer",
+		"Automation Specialist",
 	],
 	location: "Manila, Philippines",
 	timezone: "GMT+8",
