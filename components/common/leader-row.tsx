@@ -6,29 +6,31 @@ import { cn } from "@/lib/utils";
  * pair stacks and the leader disappears.
  */
 export function LeaderRow({
-  label,
-  className,
-  children,
+	label,
+	className,
+	children,
 }: {
-  label: React.ReactNode;
-  className?: string;
-  children: React.ReactNode;
+	label: React.ReactNode;
+	className?: string;
+	children: React.ReactNode;
 }) {
-  return (
-    <div
-      className={cn(
-        "flex flex-col gap-0.5 text-sm sm:flex-row sm:items-baseline sm:gap-3",
-        className,
-      )}
-    >
-      <span className="shrink-0 text-xs text-muted-foreground sm:text-sm">{label}</span>
+	return (
+		<div
+			className={cn(
+				"flex flex-col gap-0.5 text-sm sm:flex-row sm:items-baseline sm:gap-3",
+				className,
+			)}
+		>
+			<span className="shrink-0 text-xs text-muted-foreground sm:text-sm">
+				{label}
+			</span>
 
-      <span
-        aria-hidden
-        className="hidden min-w-6 flex-1 self-center border-b border-dotted border-border sm:block"
-      />
+			<span
+				aria-hidden
+				className="hidden min-w-6 flex-1 self-center border-b border-dotted border-border sm:block"
+			/>
 
-      <span className="min-w-0 sm:text-right">{children}</span>
-    </div>
-  );
+			<span className="min-w-0 sm:text-right">{children}</span>
+		</div>
+	);
 }

@@ -11,26 +11,26 @@ import { useMounted } from "@/hooks/use-mounted";
  * The label names the theme you will get, not the one you are in.
  */
 export function ThemeToggle() {
-  const mounted = useMounted();
-  const { resolvedTheme, setTheme } = useTheme();
+	const mounted = useMounted();
+	const { resolvedTheme, setTheme } = useTheme();
 
-  if (!mounted) {
-    return (
-      <span aria-hidden className="invisible text-sm">
-        [ light ]
-      </span>
-    );
-  }
+	if (!mounted) {
+		return (
+			<span aria-hidden className="invisible text-sm">
+				[ light ]
+			</span>
+		);
+	}
 
-  const next = resolvedTheme === "dark" ? "light" : "dark";
+	const next = resolvedTheme === "dark" ? "light" : "dark";
 
-  return (
-    <BracketButton
-      onClick={() => setTheme(next)}
-      aria-label={`Switch to ${next} theme`}
-      className="text-muted-foreground"
-    >
-      {next}
-    </BracketButton>
-  );
+	return (
+		<BracketButton
+			onClick={() => setTheme(next)}
+			aria-label={`Switch to ${next} theme`}
+			className="text-muted-foreground"
+		>
+			{next}
+		</BracketButton>
+	);
 }

@@ -6,40 +6,40 @@ import { cn } from "@/lib/utils";
  * `steady` holds it solid, the way a cursor stops blinking while you type.
  */
 export function Caret({
-  steady = false,
-  className,
+	steady = false,
+	className,
 }: {
-  steady?: boolean;
-  className?: string;
+	steady?: boolean;
+	className?: string;
 }) {
-  return (
-    <span
-      aria-hidden
-      className={cn(
-        "inline-block h-[1em] w-[0.55em] translate-y-[0.1em] bg-term",
-        !steady && "animate-caret",
-        className,
-      )}
-    />
-  );
+	return (
+		<span
+			aria-hidden
+			className={cn(
+				"inline-block h-[1em] w-[0.55em] translate-y-[0.1em] bg-term",
+				!steady && "animate-caret",
+				className,
+			)}
+		/>
+	);
 }
 
 /** `guest@s.laguidao:~$` on its own, for places that need their own wrapper. */
 export function PromptChrome({ className }: { className?: string }) {
-  return (
-    <span aria-hidden className={cn("text-muted-foreground", className)}>
-      guest@{PROFILE.name}:~
-      <span className="text-term">$</span>
-    </span>
-  );
+	return (
+		<span aria-hidden className={cn("text-muted-foreground", className)}>
+			guest@{PROFILE.name}:~
+			<span className="text-term">$</span>
+		</span>
+	);
 }
 
 type PromptLineProps = {
-  /** The typed command, e.g. `"cat about.txt"`. Omit for a bare prompt. */
-  command?: string;
-  /** Appends a blinking cursor after the command. */
-  caret?: boolean;
-  className?: string;
+	/** The typed command, e.g. `"cat about.txt"`. Omit for a bare prompt. */
+	command?: string;
+	/** Appends a blinking cursor after the command. */
+	caret?: boolean;
+	className?: string;
 };
 
 /**
@@ -47,13 +47,24 @@ type PromptLineProps = {
  * assistive tech; the command itself stays readable because it narrates the
  * content that follows.
  */
-export function PromptLine({ command, caret = false, className }: PromptLineProps) {
-  return (
-    <p className={cn("flex flex-wrap items-baseline gap-x-2 text-sm", className)}>
-      <PromptChrome />
+export function PromptLine({
+	command,
+	caret = false,
+	className,
+}: PromptLineProps) {
+	return (
+		<p
+			className={cn(
+				"flex flex-wrap items-baseline gap-x-2 text-sm",
+				className,
+			)}
+		>
+			<PromptChrome />
 
-      {command ? <span className="text-foreground">{command}</span> : null}
-      {caret ? <Caret /> : null}
-    </p>
-  );
+			{command ? (
+				<span className="text-foreground">{command}</span>
+			) : null}
+			{caret ? <Caret /> : null}
+		</p>
+	);
 }

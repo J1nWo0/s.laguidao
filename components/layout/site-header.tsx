@@ -10,24 +10,24 @@ import { NAV_SECTION_IDS } from "@/data/navigation";
 import { useActiveSection } from "@/hooks/use-active-section";
 
 export function SiteHeader() {
-  const activeId = useActiveSection(NAV_SECTION_IDS);
+	const activeId = useActiveSection(NAV_SECTION_IDS);
 
-  return (
-    <>
-      <ReadingProgress />
+	return (
+		<>
+			<ReadingProgress />
 
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background">
-        <Container className="flex h-12 items-center justify-between gap-4">
-          <LogoMark />
+			<header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background">
+				<Container className="flex h-12 items-center justify-between gap-4">
+					<LogoMark />
 
-          <DesktopNav activeId={activeId} />
+					<DesktopNav activeId={activeId} />
 
-          <div className="flex items-center gap-3">
-            <ThemeToggle />
-            <MobileNav activeId={activeId} />
-          </div>
-        </Container>
-      </header>
-    </>
-  );
+					<div className="flex items-center gap-3">
+						<ThemeToggle />
+						<MobileNav activeId={activeId} />
+					</div>
+				</Container>
+			</header>
+		</>
+	);
 }
