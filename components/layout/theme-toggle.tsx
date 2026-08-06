@@ -1,27 +1,36 @@
 "use client";
 
-import { ThemeTogglerButton } from "@/components/animate-ui/components/buttons/theme-toggler";
+import { useTheme } from "next-themes";
+
+import { BracketButton } from "@/components/common/bracket-link";
 import { useMounted } from "@/hooks/use-mounted";
 
 /**
- * The resolved theme is only known in the browser, so the toggler renders a
+ * The resolved theme is only known in the browser, so the toggle renders a
  * same-sized placeholder until mount rather than guessing and mismatching.
+ * The label names the theme you will get, not the one you are in.
  */
 export function ThemeToggle() {
   const mounted = useMounted();
+  const { resolvedTheme, setTheme } = useTheme();
 
   if (!mounted) {
-    return <div aria-hidden className="size-8 shrink-0" />;
+    return (
+      <span aria-hidden className="invisible text-sm">
+        [ light ]
+      </span>
+    );
   }
 
+  const next = resolvedTheme === "dark" ? "light" : "dark";
+
   return (
-    <ThemeTogglerButton
-      variant="ghost"
-      size="sm"
-      modes={["light", "dark"]}
-      direction="btt"
-      aria-label="Toggle theme"
-      className="text-muted-foreground hover:text-foreground"
-    />
+    <BracketButton
+      onClick={() => setTheme(next)}
+      aria-label={`Switch to ${next} theme`}
+      className="text-muted-foreground"
+    >
+      {next}
+    </BracketButton>
   );
 }

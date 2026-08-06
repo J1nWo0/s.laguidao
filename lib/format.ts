@@ -23,6 +23,19 @@ export function formatDateRange(start: string, end: string | null): string {
   return `${from} — ${to}`;
 }
 
+/** `"2025.08"` — sortable and fixed-width, so it aligns in a mono gutter. */
+export function formatCompactYearMonth(value: string): string {
+  const [year, month] = value.split("-");
+  return `${year}.${(month ?? "01").padStart(2, "0")}`;
+}
+
+/** `"2025.08 → now"`. Pass `null` as the end for an ongoing period. */
+export function formatCompactRange(start: string, end: string | null): string {
+  const from = formatCompactYearMonth(start);
+  const to = end ? formatCompactYearMonth(end) : "now";
+  return `${from} \u2192 ${to}`;
+}
+
 /** Inclusive month count between two year-months, ongoing periods run to today. */
 function monthsBetween(start: string, end: string | null): number {
   const from = parseYearMonth(start);
@@ -44,6 +57,14 @@ export function formatDuration(start: string, end: string | null): string {
   if (months > 0) parts.push(`${months} mo${months > 1 ? "s" : ""}`);
 
   return parts.join(" ");
+}
+
+/** `"Backend & APIs"` → `"backend-apis"`, so labels can read as paths. */
+export function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
 }
 
 /** Strips the protocol and trailing slash so URLs read well as link labels. */

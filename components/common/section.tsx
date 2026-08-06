@@ -30,13 +30,34 @@ export function Section({
     <section
       id={id}
       aria-labelledby={sectionHeadingId(id)}
-      className={cn(
-        "relative scroll-mt-20 py-20 sm:py-24 lg:py-32",
-        className,
-      )}
+      className={cn("relative scroll-mt-16 py-16 sm:py-20", className)}
       {...props}
     >
       {bleed ? children : <Container className={containerClassName}>{children}</Container>}
     </section>
+  );
+}
+
+/**
+ * The layout that unifies experience, projects and education: mono metadata in
+ * a fixed left gutter, content on the right. Stacks below `md` where there is
+ * no room for two columns of monospace.
+ */
+export function MetaRow({
+  meta,
+  className,
+  children,
+}: {
+  meta: React.ReactNode;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className={cn("grid gap-3 md:grid-cols-[7.5rem_1fr] md:gap-6", className)}>
+      <div className="flex flex-col gap-1 text-xs text-muted-foreground tabular-nums">
+        {meta}
+      </div>
+      <div className="min-w-0">{children}</div>
+    </div>
   );
 }

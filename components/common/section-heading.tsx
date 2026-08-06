@@ -1,4 +1,3 @@
-import { Reveal } from "@/components/common/reveal";
 import { sectionHeadingId } from "@/components/common/section";
 import { cn } from "@/lib/utils";
 import type { SectionId } from "@/types";
@@ -7,61 +6,73 @@ type SectionHeadingProps = {
   sectionId: SectionId;
   /** Two-digit chapter number, e.g. `"01"`. */
   index: string;
-  eyebrow: string;
-  title: React.ReactNode;
+  /** Lowercase section name, rendered as the accessible heading. */
+  label: string;
+  /** Right-aligned counter such as `"2 entries"`. */
+  meta?: React.ReactNode;
   description?: React.ReactNode;
-  align?: "start" | "center";
   className?: string;
 };
 
+/**
+ * A single quiet line: `02 ── experience ─────────────  2 entries`.
+ * The rule is a flex-filled border so it always reaches the right margin.
+ */
 export function SectionHeading({
   sectionId,
   index,
-  eyebrow,
-  title,
+  label,
+  meta,
   description,
-  align = "start",
   className,
 }: SectionHeadingProps) {
-  const centered = align === "center";
-
   return (
-    <div
+    <div className={cn("flex flex-col gap-4", className)}>
+      <div className="flex items-baseline gap-3">
+        <span className="text-xs text-term tabular-nums">{index}</span>
+
+        <h2
+          id={sectionHeadingId(sectionId)}
+          className="text-xs uppercase tracking-[0.2em] sm:text-sm"
+        >
+          {label}
+        </h2>
+
+        <span aria-hidden className="rule min-w-4 flex-1 self-center" />
+
+        {meta ? (
+          <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+            {meta}
+          </span>
+        ) : null}
+      </div>
+
+      {description ? (
+        <p className="max-w-[68ch] text-sm leading-relaxed text-muted-foreground">
+          {description}
+        </p>
+      ) : null}
+    </div>
+  );
+}
+
+/** Quieter version of the same line, for groups nested inside a section. */
+export function SubHeading({
+  className,
+  children,
+}: {
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <h3
       className={cn(
-        "flex flex-col gap-5",
-        centered ? "items-center text-center" : "items-start",
+        "flex items-baseline gap-3 text-xs uppercase tracking-[0.2em] text-muted-foreground",
         className,
       )}
     >
-      <Reveal className="flex items-center gap-3">
-        <span className="font-mono text-xs tabular-nums text-brand">{index}</span>
-        <span className="h-px w-8 bg-gradient-to-r from-brand to-transparent" />
-        <span className="font-mono text-[0.7rem] uppercase tracking-[0.22em] text-muted-foreground">
-          {eyebrow}
-        </span>
-      </Reveal>
-
-      <Reveal delay={0.06}>
-        <h2
-          id={sectionHeadingId(sectionId)}
-          className="max-w-2xl text-3xl font-semibold sm:text-4xl lg:text-5xl"
-        >
-          {title}
-        </h2>
-      </Reveal>
-
-      {description ? (
-        <Reveal delay={0.12}>
-          <p
-            className={cn(
-              "max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg",
-              centered && "mx-auto",
-            )}
-          >
-            {description}
-          </p>
-        </Reveal>
-      ) : null}
-    </div>
+      <span className="shrink-0">{children}</span>
+      <span aria-hidden className="rule min-w-4 flex-1 self-center" />
+    </h3>
   );
 }

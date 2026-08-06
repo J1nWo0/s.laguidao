@@ -13,10 +13,7 @@ export function ReadingProgress() {
         aria-hidden
         className="pointer-events-none fixed inset-x-0 top-0 z-100 h-px"
       >
-        <ScrollProgress
-          mode="width"
-          className="h-px bg-gradient-to-r from-brand-cyan via-brand to-brand-violet"
-        />
+        <ScrollProgress mode="width" className="h-px bg-term" />
       </div>
     </ScrollProgressProvider>
   );

@@ -1,44 +1,32 @@
-import { Reveal, RevealGroup, RevealItem } from "@/components/common/reveal";
 import { Section } from "@/components/common/section";
 import { SectionHeading } from "@/components/common/section-heading";
-import { SkillGroupCard } from "@/components/sections/skills/skill-group-card";
+import { TreeList } from "@/components/common/tree-list";
+import { SkillGroupRow } from "@/components/sections/skills/skill-group-row";
 import { SkillsTotals } from "@/components/sections/skills/skills-totals";
 import { SKILL_GROUPS } from "@/data/skills";
 
 export function SkillsSection() {
   return (
-    <Section id="skills" className="border-t border-border/50">
-      <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-        <SectionHeading
-          sectionId="skills"
-          index="04"
-          eyebrow="Toolkit"
-          title={
-            <>
-              The stack I reach for{" "}
-              <span className="font-display text-gradient-brand">
-                by instinct
-              </span>
-            </>
-          }
+    <Section id="skills" className="rule">
+      <SectionHeading
+        sectionId="skills"
+        index="04"
+        label="skills"
+        description="The stack I reach for by instinct, grouped by the kind of problem it solves."
+      />
+
+      <div className="mt-10 flex flex-col gap-4">
+        <p className="text-sm text-muted-foreground">skills/</p>
+
+        <TreeList
+          className="gap-4"
+          items={SKILL_GROUPS.map((group) => (
+            <SkillGroupRow key={group.id} group={group} />
+          ))}
         />
 
-        <Reveal delay={0.12} className="lg:shrink-0">
-          <SkillsTotals />
-        </Reveal>
+        <SkillsTotals className="pt-2 text-xs text-muted-foreground" />
       </div>
-
-      <RevealGroup
-        as="ul"
-        className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
-        stagger={0.06}
-      >
-        {SKILL_GROUPS.map((group) => (
-          <RevealItem key={group.id} as="li">
-            <SkillGroupCard group={group} />
-          </RevealItem>
-        ))}
-      </RevealGroup>
     </Section>
   );
 }

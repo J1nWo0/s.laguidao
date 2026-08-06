@@ -1,10 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { ArrowUpRight, Menu } from "lucide-react";
 
-import { SocialIcon } from "@/components/common/social-icon";
-import { Button } from "@/components/ui/button";
+import { BracketButton } from "@/components/common/bracket-link";
 import {
   Sheet,
   SheetContent,
@@ -22,69 +20,51 @@ export function MobileNav({ activeId }: { activeId: string | null }) {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button
-          variant="outline"
-          size="icon-sm"
-          className="md:hidden"
-          aria-label="Open navigation"
-        >
-          <Menu />
-        </Button>
+        <BracketButton className="text-muted-foreground md:hidden">
+          menu
+        </BracketButton>
       </SheetTrigger>
 
-      <SheetContent side="right" className="w-72 gap-0 border-border/70">
-        <SheetHeader className="border-b border-border/60 px-6 py-5">
-          <SheetTitle className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            Navigate
+      <SheetContent side="top" className="gap-0 border-border bg-background pb-5">
+        <SheetHeader className="border-b border-border px-5 py-3">
+          <SheetTitle className="text-xs font-normal uppercase tracking-[0.2em] text-muted-foreground">
+            Sections
           </SheetTitle>
         </SheetHeader>
 
-        <nav aria-label="Sections" className="flex flex-col px-3 py-4">
+        <nav aria-label="Sections" className="flex flex-col px-5 py-2">
           {NAV_ITEMS.map((item, index) => (
             <a
               key={item.id}
               href={`#${item.id}`}
               onClick={() => setOpen(false)}
               className={cn(
-                "group flex items-center justify-between rounded-lg px-3 py-3 text-base transition-colors duration-200 hover:bg-muted/60",
-                activeId === item.id ? "text-foreground" : "text-muted-foreground",
+                "flex items-baseline gap-3 py-2.5 text-sm lowercase transition-colors hover:text-term",
+                activeId === item.id ? "text-term" : "text-muted-foreground",
               )}
             >
-              <span className="flex items-baseline gap-3">
-                <span className="font-mono text-[0.65rem] text-brand">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                {item.label}
+              <span aria-hidden className="text-xs tabular-nums opacity-60">
+                {String(index + 1).padStart(2, "0")}
               </span>
-              <ArrowUpRight className="size-4 -translate-x-1 opacity-0 transition-all duration-200 group-hover:translate-x-0 group-hover:opacity-60" />
+              {item.label}
             </a>
           ))}
         </nav>
 
-        <div className="mt-auto border-t border-border/60 p-6">
-          <p className="mb-3 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
-            Elsewhere
-          </p>
-          <div className="flex items-center gap-2">
-            {SOCIAL_LINKS.map((link) => (
-              <Button
-                key={link.platform}
-                asChild
-                variant="outline"
-                size="icon-sm"
-              >
-                <a
-                  href={link.href}
-                  target={link.platform === "email" ? undefined : "_blank"}
-                  rel="noreferrer"
-                  aria-label={link.label}
-                >
-                  <SocialIcon platform={link.platform} className="size-3.5" />
-                </a>
-              </Button>
-            ))}
-          </div>
-          <p className="mt-4 text-xs text-muted-foreground">{PROFILE.location}</p>
+        <div className="mx-5 flex flex-wrap items-center gap-x-4 gap-y-1 rule pt-4 text-xs text-muted-foreground">
+          {SOCIAL_LINKS.map((link) => (
+            <a
+              key={link.platform}
+              href={link.href}
+              target={link.platform === "email" ? undefined : "_blank"}
+              rel="noreferrer"
+              className="lowercase transition-colors hover:text-term"
+            >
+              {link.label}
+              <span aria-hidden> &#8599;</span>
+            </a>
+          ))}
+          <span className="ms-auto">{PROFILE.location}</span>
         </div>
       </SheetContent>
     </Sheet>

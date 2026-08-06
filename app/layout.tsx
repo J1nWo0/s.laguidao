@@ -1,31 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { JetBrains_Mono } from "next/font/google";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { Toaster } from "@/components/ui/sonner";
 import { siteConfig } from "@/config/site";
 import { PROFILE, SOCIAL_LINKS } from "@/data/profile";
 import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
-  display: "swap",
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const instrumentSerif = Instrument_Serif({
-  variable: "--font-instrument-serif",
-  subsets: ["latin"],
-  weight: "400",
-  style: ["italic", "normal"],
   display: "swap",
 });
 
@@ -57,8 +42,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fbfbfc" },
-    { media: "(prefers-color-scheme: dark)", color: "#0c0c0f" },
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#090909" },
   ],
 };
 
@@ -85,18 +70,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(
-        geistSans.variable,
-        geistMono.variable,
-        instrumentSerif.variable,
-        "h-full antialiased",
-      )}
+      className={cn(jetbrainsMono.variable, "h-full antialiased")}
     >
       <body className="flex min-h-full flex-col">
-        <ThemeProvider>
-          {children}
-          <Toaster position="bottom-right" />
-        </ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

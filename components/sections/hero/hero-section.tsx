@@ -1,51 +1,70 @@
-import { AuroraBackdrop } from "@/components/common/aurora-backdrop";
 import { Container } from "@/components/common/container";
-import { Marquee } from "@/components/common/marquee";
-import { Reveal } from "@/components/common/reveal";
+import { PromptLine } from "@/components/common/prompt-line";
+import { sectionHeadingId } from "@/components/common/section";
+import { TechList } from "@/components/common/tech-list";
 import { HeroActions } from "@/components/sections/hero/hero-actions";
-import { HeroCodeCard } from "@/components/sections/hero/hero-code-card";
-import { HeroHeadline } from "@/components/sections/hero/hero-headline";
-import { ScrollCue } from "@/components/sections/hero/scroll-cue";
-import { StatusPill } from "@/components/sections/hero/status-pill";
 import { MARQUEE_TECHNOLOGIES } from "@/data/navigation";
 import { PROFILE } from "@/data/profile";
-import { sectionHeadingId } from "@/components/common/section";
 
+/** The hero reads as a shell session: each prompt introduces the output below it. */
 export function HeroSection() {
   return (
     <section
       id="hero"
       aria-labelledby={sectionHeadingId("hero")}
-      className="relative isolate overflow-hidden pt-32 pb-16 sm:pt-40 lg:pt-44 lg:pb-24"
+      className="pt-28 pb-16 sm:pt-32 sm:pb-20"
     >
-      <AuroraBackdrop />
+      <Container className="flex flex-col gap-10">
+        <div className="flex flex-col gap-4">
+          <PromptLine command="whoami" />
 
-      <Container>
-        <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
-          <div className="flex flex-col gap-8">
-            <Reveal>
-              <StatusPill>{PROFILE.availability}</StatusPill>
-            </Reveal>
+          <div className="flex flex-col gap-2">
+            <h1
+              id={sectionHeadingId("hero")}
+              className="text-2xl leading-tight sm:text-3xl"
+            >
+              {PROFILE.fullName}
+            </h1>
 
-            <HeroHeadline />
+            <p className="text-xs text-muted-foreground sm:text-sm">
+              {PROFILE.roles.join(" \u00b7 ")}
+            </p>
 
-            <Reveal delay={0.6} className="max-w-lg">
-              <p className="text-base leading-relaxed text-muted-foreground sm:text-lg">
-                {PROFILE.tagline}
-              </p>
-            </Reveal>
-
-            <Reveal delay={0.72}>
-              <HeroActions />
-            </Reveal>
+            <p className="text-xs text-muted-foreground">
+              {PROFILE.location} &#183; {PROFILE.timezone}
+            </p>
           </div>
-
-          <HeroCodeCard className="lg:justify-self-end" />
         </div>
 
-        <div className="mt-16 flex items-center gap-6 lg:mt-24">
-          <ScrollCue href="#about" />
-          <Marquee items={MARQUEE_TECHNOLOGIES} className="flex-1" />
+        <div className="flex flex-col gap-4">
+          <PromptLine command="cat headline.txt" />
+
+          <div className="flex flex-col gap-3">
+            <p className="max-w-[38ch] text-xl leading-snug sm:text-2xl">
+              {PROFILE.headline.join(" ")}
+            </p>
+
+            <p className="max-w-[68ch] text-sm leading-relaxed text-muted-foreground">
+              {PROFILE.tagline}
+            </p>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <PromptLine command="ls stack/" />
+          <TechList items={MARQUEE_TECHNOLOGIES} className="max-w-[68ch] text-sm" />
+        </div>
+
+        <div className="flex flex-col gap-4">
+          <PromptLine caret />
+
+          <div className="flex flex-col gap-3">
+            <HeroActions />
+
+            <p className="text-xs text-muted-foreground">
+              status: <span className="text-term">{PROFILE.availability}</span>
+            </p>
+          </div>
         </div>
       </Container>
     </section>
