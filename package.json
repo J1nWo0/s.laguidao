@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --port 8000",
     "build": "next build",
-    "start": "next start --port 8000",
+    "start": "serve out --listen 8000",
     "lint": "eslint"
   },
   "dependencies": {
@@ -28,6 +28,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
+    "serve": "^14.2.6",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
