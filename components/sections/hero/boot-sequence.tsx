@@ -31,6 +31,11 @@ function useBootStatus(step: number): BootStatus {
 	return cursor === step ? "running" : "waiting";
 }
 
+/** True once the sequence has typed its way down to `step`. */
+export function useBootReached(step: number): boolean {
+	return useBootStatus(step) !== "waiting";
+}
+
 /**
  * Types the hero out like a shell session on load: one command at a time, each
  * followed by its output. Steps are numbered by the `step` prop rather than by

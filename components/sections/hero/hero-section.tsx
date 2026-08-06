@@ -9,8 +9,10 @@ import {
 	BootSequence,
 } from "@/components/sections/hero/boot-sequence";
 import { HeroActions } from "@/components/sections/hero/hero-actions";
+import { HeroTerminal } from "@/components/sections/hero/hero-terminal";
 import { MARQUEE_TECHNOLOGIES } from "@/data/navigation";
 import { PROFILE } from "@/data/profile";
+import { HIRE_SCRIPT } from "@/lib/terminal";
 
 /**
  * The hero reads as a shell session: each prompt introduces the output below it,
@@ -91,7 +93,7 @@ export function HeroSection() {
 						</div>
 
 						<div className="flex flex-col gap-4">
-							<BootPrompt step={3} caret />
+							<BootPrompt step={3} command={HIRE_SCRIPT} />
 
 							<BootReveal
 								step={3}
@@ -107,6 +109,8 @@ export function HeroSection() {
 								</p>
 							</BootReveal>
 						</div>
+						{/* The sequence hands the prompt over to the visitor. */}
+						<HeroTerminal step={4} />
 					</div>
 				</BootSequence>
 			</Container>
