@@ -39,8 +39,9 @@ export type WorkExperience = {
 	id: string;
 	role: string;
 	company: string;
-	companyUrl?: string;
+	companyUrl?: string | null;
 	location: string;
+  workType: "Remote" | "On-site" | "Hybrid";
 	type: EmploymentType;
 	/** ISO year-month, e.g. "2025-08". */
 	start: string;

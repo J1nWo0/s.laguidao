@@ -46,7 +46,7 @@ export function ExperienceItem({ experience }: { experience: WorkExperience }) {
 				</h3>
 
 				<p className="mt-1 text-xs text-muted-foreground">
-					{experience.location} &#183; {experience.type}
+					{experience.location} &#183; {experience.workType} &#183; {experience.type}
 				</p>
 
 				<p className="mt-4 max-w-[68ch] text-sm leading-relaxed text-muted-foreground">
