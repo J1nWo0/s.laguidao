@@ -53,6 +53,16 @@ const link = (text: string, href: string, external = true): TerminalLine => ({
 /** Output is indented by two spaces so it reads as a block under its command. */
 const indent = (text: string) => `  ${text}`;
 
+/** Greets against the visitor's own clock, not mine. */
+function timeGreeting(): string {
+	const hour = new Date().getHours();
+
+	if (hour < 5) return "still up?";
+	if (hour < 12) return "good morning";
+	if (hour < 18) return "good afternoon";
+	return "good evening";
+}
+
 const SECTION_TARGETS: readonly SectionId[] = SECTION_IDS;
 
 /** Argument position of these commands completes to a section name. */
@@ -75,6 +85,36 @@ const COMMANDS: readonly Command[] = [
 				muted("\u2191\u2193 recalls history \u00b7 tab completes \u00b7 ctrl+l clears"),
 			],
 		}),
+	},
+	{
+		name: "hello",
+		summary: "say hi \u2014 it says hi back",
+		aliases: ["hi", "hey", "yo", "hola", "sup", "greetings"],
+		run: (args) => {
+			const who = args.join(" ").trim();
+
+			if (who.toLowerCase() === "world") {
+				return {
+					lines: [
+						line("Hello, World!"),
+						muted("where every one of us started."),
+					],
+				};
+			}
+
+			return {
+				lines: [
+					line(
+						who
+							? `hello, ${who} \u2014 good to meet you.`
+							: `${timeGreeting()} \u2014 ${PROFILE.fullName} here.`,
+					),
+					muted(
+						`\`help\` lists what this shell knows \u00b7 \`${HIRE_SCRIPT}\` is the short pitch`,
+					),
+				],
+			};
+		},
 	},
 	{
 		name: "whoami",

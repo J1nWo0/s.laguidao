@@ -75,12 +75,42 @@ export function HeroTerminal({ step }: { step: number }) {
 	const [focused, setFocused] = React.useState(false);
 
 	const inputRef = React.useRef<HTMLInputElement>(null);
+	const formRef = React.useRef<HTMLFormElement>(null);
 	const nextId = React.useRef(0);
+	/** Set when a command appends output, so the effect below knows to chase the prompt. */
+	const followPrompt = React.useRef(false);
+
+	/**
+	 * Output lands above the prompt and pushes it down, so the prompt is walked
+	 * back into view once the new lines are committed. `nearest` scrolls the
+	 * least it can, and does nothing at all while the prompt is already on screen.
+	 */
+	React.useEffect(() => {
+		if (!followPrompt.current) return;
+		followPrompt.current = false;
+
+		formRef.current?.scrollIntoView({
+			behavior: reduced ? "auto" : "smooth",
+			block: "nearest",
+		});
+	}, [entries, reduced]);
 
 	function caretToEnd() {
 		window.requestAnimationFrame(() => {
 			const input = inputRef.current;
 			input?.setSelectionRange(input.value.length, input.value.length);
+		});
+	}
+
+	/**
+	 * Clearing resets the view too — a wiped screen should start at the top.
+	 * The scroll waits a frame so it is not fighting the page shrinking as the
+	 * scrollback comes out.
+	 */
+	function clearScreen() {
+		setEntries([]);
+		window.requestAnimationFrame(() => {
+			window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
 		});
 	}
 
@@ -95,8 +125,9 @@ export function HeroTerminal({ step }: { step: number }) {
 		if (command) setHistory((previous) => [...previous, command]);
 
 		if (result.action?.type === "clear") {
-			setEntries([]);
+			clearScreen();
 		} else {
+			followPrompt.current = result.action?.type !== "navigate";
 			setEntries((previous) =>
 				[
 					...previous,
@@ -161,7 +192,7 @@ export function HeroTerminal({ step }: { step: number }) {
 
 		if (event.key === "l" && (event.ctrlKey || event.metaKey)) {
 			event.preventDefault();
-			setEntries([]);
+			clearScreen();
 		}
 	}
 
@@ -204,7 +235,11 @@ export function HeroTerminal({ step }: { step: number }) {
 				))}
 			</ol>
 
-			<form onSubmit={submit} className="flex items-baseline gap-x-2 text-sm">
+			<form
+				ref={formRef}
+				onSubmit={submit}
+				className="flex scroll-mb-8 items-baseline gap-x-2 text-sm"
+			>
 				<PromptChrome className="shrink-0" />
 
 				<span className="relative flex min-w-0 flex-1 items-baseline">
