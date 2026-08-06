@@ -1,36 +1,39 @@
 "use client";
 
-import * as React from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 type UseCopyToClipboardOptions = {
-  /** How long the `copied` flag stays true, in milliseconds. */
-  resetDelay?: number;
+	/** How long the `copied` flag stays true, in milliseconds. */
+	resetDelay?: number;
 };
 
 /** Clipboard write with a self-resetting `copied` flag for button feedback. */
 export function useCopyToClipboard({
-  resetDelay = 2000,
+	resetDelay = 2000,
 }: UseCopyToClipboardOptions = {}) {
-  const [copied, setCopied] = React.useState(false);
-  const timeout = React.useRef<ReturnType<typeof setTimeout>>(undefined);
+	const [copied, setCopied] = useState(false);
+	const timeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
-  React.useEffect(() => () => clearTimeout(timeout.current), []);
+	useEffect(() => () => clearTimeout(timeout.current), []);
 
-  const copy = React.useCallback(
-    async (value: string) => {
-      try {
-        await navigator.clipboard.writeText(value);
-        setCopied(true);
-        clearTimeout(timeout.current);
-        timeout.current = setTimeout(() => setCopied(false), resetDelay);
-        return true;
-      } catch {
-        setCopied(false);
-        return false;
-      }
-    },
-    [resetDelay],
-  );
+	const copy = useCallback(
+		async (value: string) => {
+			try {
+				await navigator.clipboard.writeText(value);
+				setCopied(true);
+				clearTimeout(timeout.current);
+				timeout.current = setTimeout(
+					() => setCopied(false),
+					resetDelay,
+				);
+				return true;
+			} catch {
+				setCopied(false);
+				return false;
+			}
+		},
+		[resetDelay],
+	);
 
-  return { copied, copy };
+	return { copied, copy };
 }

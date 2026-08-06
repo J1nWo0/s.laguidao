@@ -1,13 +1,23 @@
 import { PROFILE } from "@/data/profile";
 import { cn } from "@/lib/utils";
 
-/** Blinking block cursor. Pure CSS, and stilled by `prefers-reduced-motion`. */
-export function Caret({ className }: { className?: string }) {
+/**
+ * Blinking block cursor. Pure CSS, and stilled by `prefers-reduced-motion`.
+ * `steady` holds it solid, the way a cursor stops blinking while you type.
+ */
+export function Caret({
+  steady = false,
+  className,
+}: {
+  steady?: boolean;
+  className?: string;
+}) {
   return (
     <span
       aria-hidden
       className={cn(
-        "inline-block h-[1em] w-[0.55em] translate-y-[0.1em] bg-term animate-caret",
+        "inline-block h-[1em] w-[0.55em] translate-y-[0.1em] bg-term",
+        !steady && "animate-caret",
         className,
       )}
     />

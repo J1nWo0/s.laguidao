@@ -139,6 +139,7 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      transition-delay: 0ms !important;
     }
   }
 }
@@ -155,6 +156,30 @@
 
   .text-term {
     color: var(--term);
+  }
+
+  /* Entrances. Everything animated here is server-rendered and only faded in,
+     so nothing the page reveals can shift the layout around it. */
+  .reveal,
+  .reveal-stagger > * {
+    transition:
+      opacity 320ms ease-out,
+      transform 320ms ease-out;
+  }
+
+  .reveal[data-reveal="pending"],
+  .reveal-stagger[data-reveal="pending"] > * {
+    opacity: 0;
+    transform: translateY(0.5rem);
+  }
+
+  /* Direct children arrive in reading order rather than all at once. */
+  .reveal-stagger[data-reveal="shown"] > :nth-child(2) {
+    transition-delay: 90ms;
+  }
+
+  .reveal-stagger[data-reveal="shown"] > :nth-child(n + 3) {
+    transition-delay: 180ms;
   }
 }
 

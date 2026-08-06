@@ -14,7 +14,7 @@ export function ProjectsSection() {
       <SectionHeading
         sectionId="projects"
         index="03"
-        label="work"
+        label="projects"
         meta={`${PROJECTS.length} projects`}
         description="Fewer projects, described honestly — here is the one I keep pointing people to, plus everything else in the open."
       />

@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import { useSyncExternalStore } from "react";
 
 const subscribe = () => () => {};
 
@@ -13,9 +13,9 @@ const subscribe = () => () => {};
  * not trigger a second render pass.
  */
 export function useMounted(): boolean {
-  return React.useSyncExternalStore(
-    subscribe,
-    () => true,
-    () => false,
-  );
+	return useSyncExternalStore(
+		subscribe,
+		() => true,
+		() => false,
+	);
 }

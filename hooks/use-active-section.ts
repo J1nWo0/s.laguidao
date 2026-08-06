@@ -1,10 +1,10 @@
 "use client";
 
-import * as React from "react";
+import { useEffect, useState } from "react";
 
 type UseActiveSectionOptions = {
-  /** Fraction of the viewport height treated as the detection line from the top. */
-  offsetRatio?: number;
+	/** Fraction of the viewport height treated as the detection line from the top. */
+	offsetRatio?: number;
 };
 
 /**
@@ -12,51 +12,52 @@ type UseActiveSectionOptions = {
  * top of the viewport and returns its id, or `null` before the first section.
  */
 export function useActiveSection(
-  ids: readonly string[],
-  { offsetRatio = 0.35 }: UseActiveSectionOptions = {},
+	ids: readonly string[],
+	{ offsetRatio = 0.35 }: UseActiveSectionOptions = {},
 ): string | null {
-  const [activeId, setActiveId] = React.useState<string | null>(null);
+	const [activeId, setActiveId] = useState<string | null>(null);
 
-  React.useEffect(() => {
-    if (ids.length === 0) return;
+	useEffect(() => {
+		if (ids.length === 0) return;
 
-    let frame = 0;
+		let frame = 0;
 
-    const resolveActive = () => {
-      frame = 0;
-      const line = window.innerHeight * offsetRatio;
+		const resolveActive = () => {
+			frame = 0;
+			const line = window.innerHeight * offsetRatio;
 
-      let current: string | null = null;
-      for (const id of ids) {
-        const element = document.getElementById(id);
-        if (!element) continue;
-        if (element.getBoundingClientRect().top - line <= 0) current = id;
-      }
+			let current: string | null = null;
+			for (const id of ids) {
+				const element = document.getElementById(id);
+				if (!element) continue;
+				if (element.getBoundingClientRect().top - line <= 0)
+					current = id;
+			}
 
-      // Guarantee the last section wins once the page is scrolled to the bottom.
-      const atBottom =
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 2;
-      if (atBottom) current = ids[ids.length - 1];
+			// Guarantee the last section wins once the page is scrolled to the bottom.
+			const atBottom =
+				window.innerHeight + window.scrollY >=
+				document.documentElement.scrollHeight - 2;
+			if (atBottom) current = ids[ids.length - 1];
 
-      setActiveId(current);
-    };
+			setActiveId(current);
+		};
 
-    const onScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(resolveActive);
-    };
+		const onScroll = () => {
+			if (frame) return;
+			frame = window.requestAnimationFrame(resolveActive);
+		};
 
-    resolveActive();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
+		resolveActive();
+		window.addEventListener("scroll", onScroll, { passive: true });
+		window.addEventListener("resize", onScroll);
 
-    return () => {
-      if (frame) window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, [ids, offsetRatio]);
+		return () => {
+			if (frame) window.cancelAnimationFrame(frame);
+			window.removeEventListener("scroll", onScroll);
+			window.removeEventListener("resize", onScroll);
+		};
+	}, [ids, offsetRatio]);
 
-  return activeId;
+	return activeId;
 }

@@ -1,4 +1,5 @@
 import { Container } from "@/components/common/container";
+import { Reveal } from "@/components/common/reveal";
 import { cn } from "@/lib/utils";
 import type { SectionId } from "@/types";
 
@@ -16,7 +17,8 @@ type SectionProps = Omit<React.ComponentProps<"section">, "id"> & {
 
 /**
  * Consistent vertical rhythm, scroll-spy anchor and accessible labelling for
- * every top-level section of the page.
+ * every top-level section of the page. The heading and the blocks under it fade
+ * in the first time the section is scrolled to.
  */
 export function Section({
   id,
@@ -26,6 +28,8 @@ export function Section({
   children,
   ...props
 }: SectionProps) {
+  const content = <Reveal stagger>{children}</Reveal>;
+
   return (
     <section
       id={id}
@@ -33,7 +37,7 @@ export function Section({
       className={cn("relative scroll-mt-16 py-16 sm:py-20", className)}
       {...props}
     >
-      {bleed ? children : <Container className={containerClassName}>{children}</Container>}
+      {bleed ? content : <Container className={containerClassName}>{content}</Container>}
     </section>
   );
 }

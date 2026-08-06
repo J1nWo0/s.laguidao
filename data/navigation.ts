@@ -3,7 +3,7 @@ import type { NavItem, NavSectionId } from "@/types";
 export const NAV_ITEMS: readonly NavItem[] = [
   { id: "about", label: "About" },
   { id: "experience", label: "Experience" },
-  { id: "projects", label: "Work" },
+  { id: "projects", label: "Projects" },
   { id: "skills", label: "Skills" },
   { id: "contact", label: "Contact" },
 ] as const;

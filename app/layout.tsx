@@ -73,6 +73,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={cn(jetbrainsMono.variable, "h-full antialiased")}
     >
       <body className="flex min-h-full flex-col">
+        {/* Entrances are scripted, so without JS everything simply starts visible. */}
+        <noscript>
+          <style>{`.reveal[data-reveal="pending"],.reveal-stagger[data-reveal="pending"]>*{opacity:1;transform:none}`}</style>
+        </noscript>
+
         <ThemeProvider>{children}</ThemeProvider>
         <script
           type="application/ld+json"
