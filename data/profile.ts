@@ -4,29 +4,30 @@ export const PROFILE = {
   name: "s.laguidao",
   fullName: "Sherwin S. Laguidao",
   initials: "SL",
-  role: "Backend Developer",
+  role: "Full-Stack Developer",
   /** Cycled through by the hero headline. */
   roles: [
-    "Backend Developer",
+    "Full-Stack Developer",
+    "Backend Engineer",
     "Automation Engineer",
-    "API Architect",
     "AI Integrator",
   ],
   location: "Manila, Philippines",
   timezone: "GMT+8",
   email: "sherwinlaguidao.work@gmail.com",
   phone: "+63 927 985 2600",
-  availability: "Open to backend & automation roles",
-  headline: ["I build backends", "that run themselves."],
+  availability: "Open to full-stack, backend & automation roles",
+  headline: ["I build modern apps", "from frontend to backend."],
   tagline:
-    "Backend developer specialising in automated workflows, resilient APIs and AI-powered pipelines — currently shipping for a London-based platform from Manila.",
+    "Full-stack developer specializing in scalable web applications, resilient APIs, workflow automation, and AI-powered solutions using modern JavaScript and TypeScript technologies.",
   bio: [
-    "I'm a computer science graduate turned backend developer who is happiest a layer beneath the interface — designing the APIs, data models and event-driven jobs that make a product feel effortless.",
-    "At LPGP Connect I automate the work nobody should be doing by hand: database backups, third-party integrations and trigger-based pipelines. A lot of that work is measured in latency and token cost, so I've grown a habit of tuning until the numbers justify the feature.",
-    "Before that I built full-stack features end to end during my internship, which is why I still care about the frontend contract: predictable payloads, honest error states and interfaces that don't need a workaround.",
+    "I'm a computer science graduate and full-stack developer passionate about building modern web applications from the user interface down to the backend infrastructure. I enjoy creating software that is fast, scalable, and easy to maintain.",
+    "My experience spans frontend development with React, Next.js, Tailwind CSS, and shadcn/ui, as well as backend development using Node.js, NestJS, Express, MongoDB, and PostgreSQL. I also build REST APIs, automate workflows, and integrate AI services to solve real-world problems.",
+    "I believe great products come from understanding the entire stack. Whether I'm designing intuitive user experiences, building reliable APIs, or automating complex business processes, my goal is always to deliver clean, maintainable, and impactful solutions.",
   ],
+
   metaDescription:
-    "Sherwin Laguidao is a backend developer in Manila building automated workflows, resilient APIs and AI-powered pipelines with Node.js, TypeScript and Python.",
+    "Sherwin Laguidao is a full-stack developer in Manila building scalable web applications, modern user interfaces, resilient APIs, workflow automation, and AI-powered solutions with React, Next.js, Node.js, TypeScript, and Python.",
 } as const;
 
 export const SOCIAL_LINKS: readonly SocialLink[] = [
@@ -52,7 +53,7 @@ export const SOCIAL_LINKS: readonly SocialLink[] = [
 
 export const QUICK_FACTS: readonly Fact[] = [
   { label: "Based in", value: `${PROFILE.location} · ${PROFILE.timezone}` },
-  { label: "Currently", value: "Jr. Backend Developer at LPGP Connect" },
-  { label: "Focused on", value: "APIs, automation & AI pipelines" },
+  { label: "Currently", value: "Jr. Full-Stack Developer at LPGP Connect" },
+  { label: "Focused on", value: "Full-stack apps, APIs & AI automation" },
   { label: "Status", value: PROFILE.availability },
 ] as const;
