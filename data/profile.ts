@@ -17,7 +17,7 @@ export const PROFILE = {
   email: "sherwinlaguidao.work@gmail.com",
   phone: "+63 927 985 2600",
   availability: "Open to full-stack, backend & automation roles",
-  headline: ["I build modern apps", "from frontend to backend."],
+  headline: ["I build modern apps", "from frontend to backend", "and use AI to automate workflows."],
   tagline:
     "Full-stack developer specializing in scalable web applications, resilient APIs, workflow automation, and AI-powered solutions using modern JavaScript and TypeScript technologies.",
   bio: [
