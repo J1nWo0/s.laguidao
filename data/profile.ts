@@ -59,7 +59,7 @@ export const SOCIAL_LINKS: readonly SocialLink[] = [
 
 export const QUICK_FACTS: readonly Fact[] = [
 	{ label: "Based in", value: `${PROFILE.location} · ${PROFILE.timezone}` },
-	{ label: "Currently", value: "Jr. Full-Stack Developer at LPGP Connect" },
+	{ label: "Currently", value: "Jr. Backend Developer at LPGP Connect" },
 	{ label: "Focused on", value: "Full-stack apps, APIs & AI automation" },
 	{ label: "Status", value: PROFILE.availability },
 ] as const;
