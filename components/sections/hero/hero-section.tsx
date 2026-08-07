@@ -27,8 +27,8 @@ export function HeroSection() {
 		>
 			<Container>
 				<BootSequence>
-					<div className="flex flex-col gap-10">
-						<div className="flex flex-col gap-4">
+					<div className="flex flex-col gap-4">
+						<div className="flex flex-col gap-1.5">
 							<BootPrompt step={0} command="whoami" />
 
 							<BootReveal
@@ -64,7 +64,7 @@ export function HeroSection() {
 							</BootReveal>
 						</div>
 
-						<div className="flex flex-col gap-4">
+						<div className="flex flex-col gap-1.5">
 							<BootPrompt step={1} command="cat headline.txt" />
 
 							<BootReveal
@@ -81,7 +81,7 @@ export function HeroSection() {
 							</BootReveal>
 						</div>
 
-						<div className="flex flex-col gap-4">
+						<div className="flex flex-col gap-1.5">
 							<BootPrompt step={2} command="ls stack/" />
 
 							<BootReveal step={2}>
@@ -92,7 +92,7 @@ export function HeroSection() {
 							</BootReveal>
 						</div>
 
-						<div className="flex flex-col gap-4">
+						<div className="flex flex-col gap-1.5">
 							<BootPrompt step={3} command={HIRE_SCRIPT} />
 
 							<BootReveal

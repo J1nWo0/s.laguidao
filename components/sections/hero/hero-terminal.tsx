@@ -1,7 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
-import * as React from "react";
+import { useEffect, useRef, useState, KeyboardEvent, MouseEvent, SyntheticEvent } from "react";
 
 import { BracketLink } from "@/components/common/bracket-link";
 import { Caret, PromptChrome } from "@/components/common/prompt-line";
@@ -65,27 +65,29 @@ function OutputLine({ line }: { line: TerminalLine }) {
 export function HeroTerminal({ step }: { step: number }) {
 	const ready = useBootReached(step);
 	const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
+	/** Touch is left alone — focusing there throws up the keyboard uninvited. */
+	const pointer = useMediaQuery("(pointer: fine)");
 	const { resolvedTheme, setTheme } = useTheme();
 
-	const [entries, setEntries] = React.useState<Entry[]>([]);
-	const [value, setValue] = React.useState("");
-	const [history, setHistory] = React.useState<string[]>([]);
+	const [entries, setEntries] = useState<Entry[]>([]);
+	const [value, setValue] = useState("");
+	const [history, setHistory] = useState<string[]>([]);
 	/** Index into `history` while recalling, or `null` while editing a new line. */
-	const [recalled, setRecalled] = React.useState<number | null>(null);
-	const [focused, setFocused] = React.useState(false);
+	const [recalled, setRecalled] = useState<number | null>(null);
+	const [focused, setFocused] = useState(false);
 
-	const inputRef = React.useRef<HTMLInputElement>(null);
-	const formRef = React.useRef<HTMLFormElement>(null);
-	const nextId = React.useRef(0);
+	const inputRef = useRef<HTMLInputElement>(null);
+	const formRef = useRef<HTMLFormElement>(null);
+	const nextId = useRef(0);
 	/** Set when a command appends output, so the effect below knows to chase the prompt. */
-	const followPrompt = React.useRef(false);
+	const followPrompt = useRef(false);
 
 	/**
 	 * Output lands above the prompt and pushes it down, so the prompt is walked
 	 * back into view once the new lines are committed. `nearest` scrolls the
 	 * least it can, and does nothing at all while the prompt is already on screen.
 	 */
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!followPrompt.current) return;
 		followPrompt.current = false;
 
@@ -94,6 +96,46 @@ export function HeroTerminal({ step }: { step: number }) {
 			block: "nearest",
 		});
 	}, [entries, reduced]);
+
+	/**
+	 * The prompt takes focus the moment the boot sequence hands it over, so the
+	 * first thing typed lands here without a click. It yields to anything the
+	 * visitor has already put focus on, and never scrolls to claim it.
+	 */
+	useEffect(() => {
+		if (!ready || !pointer) return;
+		if (document.activeElement !== document.body) return;
+
+		inputRef.current?.focus({ preventScroll: true });
+	}, [ready, pointer]);
+
+	/**
+	 * Typing with nothing else focused comes back to the prompt, so focus lost
+	 * to a stray click does not have to be clicked back. The keystroke itself
+	 * still lands in the input — focus moves before the character is inserted.
+	 */
+	useEffect(() => {
+		if (!ready || !pointer) return;
+
+		function handleTyping(event: globalThis.KeyboardEvent) {
+			if (event.ctrlKey || event.metaKey || event.altKey) return;
+			/** Printable characters only; shortcuts and navigation keys pass through. */
+			if (event.key.length !== 1) return;
+			if (document.activeElement !== document.body) return;
+
+			const input = inputRef.current;
+			if (!input) return;
+
+			/** Only while the prompt is on screen — otherwise you type blind. */
+			const { top, bottom } = input.getBoundingClientRect();
+			if (bottom < 0 || top > window.innerHeight) return;
+
+			input.focus({ preventScroll: true });
+		}
+
+		document.addEventListener("keydown", handleTyping);
+		return () => document.removeEventListener("keydown", handleTyping);
+	}, [ready, pointer]);
 
 	function caretToEnd() {
 		window.requestAnimationFrame(() => {
@@ -114,7 +156,7 @@ export function HeroTerminal({ step }: { step: number }) {
 		});
 	}
 
-	function submit(event: React.FormEvent) {
+	function submit(event: SyntheticEvent<HTMLFormElement>) {
 		event.preventDefault();
 
 		const command = value.trim();
@@ -167,7 +209,7 @@ export function HeroTerminal({ step }: { step: number }) {
 		caretToEnd();
 	}
 
-	function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+	function handleKeyDown(event: KeyboardEvent<HTMLInputElement>) {
 		if (event.key === "ArrowUp") {
 			event.preventDefault();
 			recall(-1);
@@ -197,7 +239,7 @@ export function HeroTerminal({ step }: { step: number }) {
 	}
 
 	/** Clicking anywhere in the block puts you on the prompt, like a real terminal. */
-	function handleClick(event: React.MouseEvent<HTMLDivElement>) {
+	function handleClick(event: MouseEvent<HTMLDivElement>) {
 		const target = event.target as HTMLElement;
 		if (target.closest("a, button")) return;
 		if (window.getSelection()?.toString()) return;

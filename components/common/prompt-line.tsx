@@ -2,7 +2,7 @@ import { PROFILE } from "@/data/profile";
 import { cn } from "@/lib/utils";
 
 /**
- * Blinking block cursor. Pure CSS, and stilled by `prefers-reduced-motion`.
+ * Blinking beam cursor. Pure CSS, and stilled by `prefers-reduced-motion`.
  * `steady` holds it solid, the way a cursor stops blinking while you type.
  */
 export function Caret({
@@ -16,7 +16,7 @@ export function Caret({
 		<span
 			aria-hidden
 			className={cn(
-				"inline-block h-[1em] w-[0.55em] translate-y-[0.1em] bg-term",
+				"inline-block h-[1em] w-[2px] translate-y-[0.1em] bg-term",
 				!steady && "animate-caret",
 				className,
 			)}

@@ -5,6 +5,7 @@ import { Container } from "@/components/common/container";
 import { PromptLine } from "@/components/common/prompt-line";
 import { TreeList } from "@/components/common/tree-list";
 import { NAV_ITEMS } from "@/data/navigation";
+import { HeroTerminal } from "@/components/sections/hero/hero-terminal";
 
 export const metadata: Metadata = {
   title: "404",
@@ -51,7 +52,7 @@ export default function NotFound() {
         </div>
 
         <div className="flex flex-col gap-4">
-          <PromptLine caret />
+          <PromptLine command="cd ~" />
 
           <BracketRouteLink href="/">back to home</BracketRouteLink>
         </div>
