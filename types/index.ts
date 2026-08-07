@@ -52,6 +52,15 @@ export type WorkExperience = {
 	stack: readonly string[];
 };
 
+/** A screenshot of the project, served from `public/`. */
+export type ProjectPreview = {
+	src: string;
+	/** Intrinsic pixel size, so the space is reserved before the file arrives. */
+	width: number;
+	height: number;
+	alt: string;
+};
+
 export type Project = {
 	id: string;
 	name: string;
@@ -60,6 +69,7 @@ export type Project = {
 	year: string;
 	highlights: readonly string[];
 	stack: readonly string[];
+	preview?: ProjectPreview;
 	links: {
 		live?: string;
 		source?: string;

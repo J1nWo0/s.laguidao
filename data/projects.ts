@@ -35,6 +35,12 @@ export const PROJECTS: readonly Project[] = [
 			"Demonstrates the practical application of Linear Programming in combinatorial optimization and algorithm design.",
 		],
 		stack: ["Python", "PyGame", "NumPy", "Pandas", "Pulp"],
+		preview: {
+			src: "/projects/killer-sudoku.png",
+			width: 1278,
+			height: 745,
+			alt: "The Killer Sudoku Solver title screen, listing menu entries for 9×9 puzzles, 4×4 puzzles, controls and quit.",
+		},
 		links: {
 			source: "https://github.com/J1nWo0/Killer-Sudoku-Solver-For-9x9_4x4",
 			docs: "https://drive.google.com/file/d/1a9_7yfo9c_dDXkCr3ng2BOaiv8kYsBvY/view?usp=drive_link",

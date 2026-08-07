@@ -1,4 +1,5 @@
 import { BracketLink } from "@/components/common/bracket-link";
+import { ImageDialog } from "@/components/common/image-dialog";
 import { PdfDialog } from "@/components/common/pdf-dialog";
 import { MetaRow } from "@/components/common/section";
 import { TechList } from "@/components/common/tech-list";
@@ -14,6 +15,7 @@ export function ProjectEntry({
 	index: string;
 }) {
 	const { live, source, docs } = project.links;
+	const { preview } = project;
 
 	return (
 		<li className="rule-dashed py-8 first:border-t-0 first:pt-0">
@@ -42,7 +44,7 @@ export function ProjectEntry({
 
 				<TechList items={project.stack} className="mt-4" />
 
-				{live || source || docs ? (
+				{live || source || preview || docs ? (
 					<div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-2">
 						{live ? (
 							<BracketLink href={live} external>
@@ -53,6 +55,14 @@ export function ProjectEntry({
 							<BracketLink href={source} external>
 								source
 							</BracketLink>
+						) : null}
+						{preview ? (
+							<ImageDialog
+								src={preview.src}
+								width={preview.width}
+								height={preview.height}
+								alt={preview.alt}
+							/>
 						) : null}
 						{docs ? (
 							<PdfDialog
