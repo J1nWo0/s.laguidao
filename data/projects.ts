@@ -24,14 +24,14 @@ export const PROJECTS: readonly Project[] = [
 		name: "Killer Sudoku Solver",
 		tagline: "Solving Killer Sudoku with the Power of Linear Programming",
 		description:
-			"Developed a 4×4 and 9×9 Killer Sudoku Solver that models the puzzle as a Binary Integer Linear Programming (BILP) problem. The application translates Sudoku rules and Killer Sudoku cage constraints into linear equations, enabling an optimization solver to efficiently compute valid solutions. Built with a user-friendly interface, the project demonstrates how mathematical optimization techniques can solve complex combinatorial problems with accuracy and speed.",
+			"Developed a 4×4 and 9×9 Killer Sudoku Solver that models the puzzle as a Binary Integer Linear Programming (BILP) problem. The application translates Sudoku rules and Killer Sudoku cage constraints into linear equations, enabling an optimization solver to efficiently compute valid solutions. The project demonstrates how mathematical optimization techniques can solve complex combinatorial problems with accuracy and speed.",
 		year: "2024",
 		highlights: [
 			"Solves both 4×4 and 9×9 Killer Sudoku puzzles.",
-			"Formulates Sudoku constraints using Binary Integer Linear Programming (BILP).",
+			// "Formulates Sudoku constraints using Binary Integer Linear Programming (BILP).",
 			"Efficiently computes solutions while satisfying row, column, block, and cage-sum constraints.",
-			"Produces accurate solutions through mathematical optimization rather than brute-force search.",
-			"Includes a user-friendly interface for solving and interacting with puzzles.",
+			// "Produces accurate solutions through mathematical optimization rather than brute-force search.",
+			// "Includes a user-friendly interface for solving and interacting with puzzles.",
 			"Demonstrates the practical application of Linear Programming in combinatorial optimization and algorithm design.",
 		],
 		stack: ["Python", "PyGame", "NumPy", "Pandas", "Pulp"],

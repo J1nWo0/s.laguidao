@@ -7,7 +7,7 @@ import { useMediaQuery } from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 
 /** How long a page stays up before the pager moves on by itself. */
-const AUTOPLAY_MS = 5000; 
+const AUTOPLAY_MS = 5000;
 
 function pad(value: number): string {
 	return String(value).padStart(2, "0");
@@ -68,46 +68,6 @@ export function ProjectsPager({
 			onBlur={handleBlur}
 			className={className}
 		>
-      {count > 1 ? (
-				<div className="rule-dashed flex items-baseline justify-between pt-6 pb-4">
-					<BracketButton
-						onClick={() => go(-1)}
-						aria-label="Previous projects"
-					>
-						prev
-					</BracketButton>
-
-					<span
-						aria-live="polite"
-						className="text-xs text-muted-foreground tabular-nums"
-					>
-						{pad(active + 1)} / {pad(count)}
-					</span>
-
-					<BracketButton
-						onClick={() => go(1)}
-						aria-label="Next projects"
-					>
-						next
-					</BracketButton>
-				</div>
-			) : null}
-
-			{pages.map((page, index) => (
-				<ul
-					key={index}
-					hidden={index !== active}
-					aria-roledescription="slide"
-					aria-label={`page ${pad(index + 1)} of ${pad(count)}`}
-					className={cn(
-						"flex flex-col",
-						index === active && "animate-in fade-in-0 duration-300",
-					)}
-				>
-					{page}
-				</ul>
-			))}
-
 			{/* {count > 1 ? (
 				<div className="rule-dashed flex items-baseline justify-between pt-6 pb-4">
 					<BracketButton
@@ -132,6 +92,46 @@ export function ProjectsPager({
 					</BracketButton>
 				</div>
 			) : null} */}
+
+			{pages.map((page, index) => (
+				<ul
+					key={index}
+					hidden={index !== active}
+					aria-roledescription="slide"
+					aria-label={`page ${pad(index + 1)} of ${pad(count)}`}
+					className={cn(
+						"flex flex-col",
+						index === active && "animate-in fade-in-0 duration-300",
+					)}
+				>
+					{page}
+				</ul>
+			))}
+
+			{count > 1 ? (
+				<div className="rule-dashed flex items-baseline justify-between pt-6 pb-4">
+					<BracketButton
+						onClick={() => go(-1)}
+						aria-label="Previous projects"
+					>
+						prev
+					</BracketButton>
+
+					<span
+						aria-live="polite"
+						className="text-xs text-muted-foreground tabular-nums"
+					>
+						{pad(active + 1)} / {pad(count)}
+					</span>
+
+					<BracketButton
+						onClick={() => go(1)}
+						aria-label="Next projects"
+					>
+						next
+					</BracketButton>
+				</div>
+			) : null}
 		</div>
 	);
 }
