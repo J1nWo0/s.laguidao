@@ -18,12 +18,12 @@ export const SPIDER_VERSE: readonly SpiderIdentity[] = [
 		earth: "earth-1610",
 		quote: "anyone can wear the mask.",
 	},
-	{
-		keys: ["gwen", "gwen stacy", "spider-gwen", "ghost-spider"],
-		alias: "Gwen Stacy",
-		earth: "earth-65",
-		quote: "in every other universe, it works out. just not this one.",
-	},
+	// {
+	// 	keys: ["gwen", "gwen stacy", "spider-gwen", "ghost-spider"],
+	// 	alias: "Gwen Stacy",
+	// 	earth: "earth-65",
+	// 	quote: "in every other universe, it works out. just not this one.",
+	// },
 	{
 		keys: ["miguel", "miguel o'hara", "spider-man 2099", "2099"],
 		alias: "Miguel O'Hara",
