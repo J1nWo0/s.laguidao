@@ -181,6 +181,40 @@
   .reveal-stagger[data-reveal="shown"] > :nth-child(n + 3) {
     transition-delay: 180ms;
   }
+
+  /* Signal tear for the hero name. The copies read from `data-text`, so the
+     markup stays a single element and the layout never moves. */
+  .glitch {
+    position: relative;
+    display: inline-block;
+  }
+
+  .glitch[data-glitch="on"] {
+    animation: glitch-skew 500ms steps(3, end) infinite;
+  }
+
+  .glitch[data-glitch="on"]::before,
+  .glitch[data-glitch="on"]::after {
+    content: attr(data-text);
+    position: absolute;
+    inset: 0;
+    color: var(--foreground);
+    /* Opaque, so each band hides the still copy underneath it. */
+    background: var(--background);
+    pointer-events: none;
+  }
+
+  .glitch[data-glitch="on"]::before {
+    text-shadow: 0.05em 0 0 oklch(0.62 0.24 27);
+    clip-path: inset(0 0 58% 0);
+    animation: glitch-a 460ms steps(2, end) infinite;
+  }
+
+  .glitch[data-glitch="on"]::after {
+    text-shadow: -0.05em 0 0 oklch(0.68 0.16 240);
+    clip-path: inset(42% 0 0 0);
+    animation: glitch-b 380ms steps(2, end) infinite;
+  }
 }
 
 @keyframes caret-blink {
@@ -191,5 +225,64 @@
   50%,
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes glitch-skew {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  33% {
+    transform: translateX(-0.02em);
+  }
+  66% {
+    transform: translateX(0.02em);
+  }
+}
+
+@keyframes glitch-a {
+  0% {
+    transform: translateX(-0.06em);
+    clip-path: inset(0 0 58% 0);
+  }
+  25% {
+    transform: translateX(0.05em);
+    clip-path: inset(0 0 72% 0);
+  }
+  50% {
+    transform: translateX(-0.04em);
+    clip-path: inset(0 0 45% 0);
+  }
+  75% {
+    transform: translateX(0.06em);
+    clip-path: inset(0 0 66% 0);
+  }
+  100% {
+    transform: translateX(-0.03em);
+    clip-path: inset(0 0 58% 0);
+  }
+}
+
+@keyframes glitch-b {
+  0% {
+    transform: translateX(0.06em);
+    clip-path: inset(42% 0 0 0);
+  }
+  25% {
+    transform: translateX(-0.05em);
+    clip-path: inset(28% 0 0 0);
+  }
+  50% {
+    transform: translateX(0.04em);
+    clip-path: inset(55% 0 0 0);
+  }
+  75% {
+    transform: translateX(-0.06em);
+    clip-path: inset(34% 0 0 0);
+  }
+  100% {
+    transform: translateX(0.03em);
+    clip-path: inset(42% 0 0 0);
   }
 }

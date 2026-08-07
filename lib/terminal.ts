@@ -4,6 +4,7 @@ import { MARQUEE_TECHNOLOGIES, NAV_ITEMS } from "@/data/navigation";
 import { PROFILE, SOCIAL_LINKS } from "@/data/profile";
 import { PROJECTS } from "@/data/projects";
 import { SKILL_GROUPS } from "@/data/skills";
+import { SPIDER_VERSE } from "@/data/spider-verse";
 import { formatCompactRange } from "@/lib/format";
 import { SECTION_IDS, type SectionId } from "@/types";
 
@@ -21,7 +22,8 @@ export type TerminalLine = {
 export type TerminalAction =
 	| { type: "clear" }
 	| { type: "navigate"; section: SectionId }
-	| { type: "theme"; mode: "dark" | "light" | "toggle" };
+	| { type: "theme"; mode: "dark" | "light" | "toggle" }
+	| { type: "glitch"; alias: string };
 
 export type CommandResult = {
 	lines: readonly TerminalLine[];
@@ -372,9 +374,37 @@ const COMMAND_MAP = new Map<string, Command>(
 	),
 );
 
+/** `Spider-Man`, `spider man` and `spiderman` all have to land on the same mask. */
+const spiderKey = (value: string) =>
+	value.toLowerCase().replace(/[^a-z0-9]/g, "");
+
+const SPIDER_MAP = new Map(
+	SPIDER_VERSE.flatMap((identity) =>
+		identity.keys.map((key) => [spiderKey(key), identity] as const),
+	),
+);
+
 export function runCommand(input: string): CommandResult {
 	const trimmed = input.trim();
 	if (!trimmed) return { lines: [] };
+
+	/**
+	 * Matched on the whole line rather than the first word, so two-word names
+	 * like `miles morales` work. Deliberately unregistered as a command, which
+	 * keeps it out of `help` and tab completion.
+	 */
+	const identity = SPIDER_MAP.get(spiderKey(trimmed));
+
+	if (identity) {
+		return {
+			lines: [
+				term(`anomaly detected \u00b7 ${identity.earth}`),
+				line(`"${identity.quote}"`),
+				muted("identity restored in a moment."),
+			],
+			action: { type: "glitch", alias: identity.alias },
+		};
+	}
 
 	const [name, ...args] = trimmed.split(/\s+/);
 	const command = COMMAND_MAP.get(name.toLowerCase());

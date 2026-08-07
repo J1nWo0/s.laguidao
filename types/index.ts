@@ -109,3 +109,13 @@ export type Fact = {
 	label: string;
 	value: string;
 };
+
+/** One of the masks the hero prompt can be talked into wearing. */
+export type SpiderIdentity = {
+	/** Matched loosely: lowercased, non-alphanumerics stripped. */
+	keys: readonly string[];
+	/** What the hero heading becomes. */
+	alias: string;
+	earth: string;
+	quote: string;
+};

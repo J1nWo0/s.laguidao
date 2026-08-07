@@ -6,6 +6,7 @@ import { useEffect, useRef, useState, KeyboardEvent, MouseEvent, SyntheticEvent 
 import { BracketLink } from "@/components/common/bracket-link";
 import { Caret, PromptChrome } from "@/components/common/prompt-line";
 import { useBootReached } from "@/components/sections/hero/boot-sequence";
+import { useSpiderVerse } from "@/components/sections/hero/spider-verse";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import {
 	completeInput,
@@ -68,6 +69,7 @@ export function HeroTerminal({ step }: { step: number }) {
 	/** Touch is left alone — focusing there throws up the keyboard uninvited. */
 	const pointer = useMediaQuery("(pointer: fine)");
 	const { resolvedTheme, setTheme } = useTheme();
+	const { reveal } = useSpiderVerse();
 
 	const [entries, setEntries] = useState<Entry[]>([]);
 	const [value, setValue] = useState("");
@@ -193,6 +195,10 @@ export function HeroTerminal({ step }: { step: number }) {
 						: "dark"
 					: mode,
 			);
+		}
+
+		if (result.action?.type === "glitch") {
+			reveal(result.action.alias);
 		}
 	}
 
