@@ -19,6 +19,9 @@ export const PROFILE = {
 	email: "sherwinlaguidao.work@gmail.com",
 	phone: "+63 927 985 2600",
 	availability: "Open to full-stack, backend & automation roles",
+	resumeUrl:
+		"https://drive.google.com/file/d/16GzA9huf3r1-dLq-U8n4xWSkegNW7LVU/view?usp=drive_link",
+	cvUrl: null,
 	headline: [
 		"I build modern apps",
 		"from frontend to backend",
