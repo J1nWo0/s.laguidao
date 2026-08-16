@@ -16,6 +16,8 @@ export type TerminalLine = {
 	/** Renders the line as a `[ label ]` link instead of plain text. */
 	href?: string;
 	external?: boolean;
+	/** Renders the line as a `[ label ]` PDF viewer instead of a link. */
+	pdf?: { url: string; fileName: string; label: string };
 };
 
 /** Anything a command needs the page to do that plain output cannot express. */
@@ -51,6 +53,15 @@ const link = (text: string, href: string, external = true): TerminalLine => ({
 	text,
 	href,
 	external,
+});
+const pdf = (
+	text: string,
+	url: string,
+	fileName: string,
+	label: string,
+): TerminalLine => ({
+	text,
+	pdf: { url, fileName, label },
 });
 
 /** Output is indented by two spaces so it reads as a block under its command. */
@@ -222,6 +233,16 @@ const COMMANDS: readonly Command[] = [
 				muted(PROFILE.roles.join(" \u00b7 ")),
 				muted(`${PROFILE.location} \u00b7 ${PROFILE.timezone}`),
 				term(PROFILE.availability),
+        ...(PROFILE.resumeUrl
+          ? [
+              pdf(
+                "resume",
+                PROFILE.resumeUrl,
+                "sherwin-laguidao-resume.pdf",
+                "Sherwin Laguidao Resume",
+              ),
+            ]
+          : []),
 				...SOCIAL_LINKS.map((social) =>
 					link(
 						`${social.label.toLowerCase()}: ${social.handle}`,

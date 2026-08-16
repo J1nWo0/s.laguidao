@@ -4,6 +4,7 @@ import { useTheme } from "next-themes";
 import { useEffect, useRef, useState, KeyboardEvent, MouseEvent, SyntheticEvent } from "react";
 
 import { BracketLink } from "@/components/common/bracket-link";
+import { PdfDialog } from "@/components/common/pdf-dialog";
 import { Caret, PromptChrome } from "@/components/common/prompt-line";
 import { useBootReached } from "@/components/sections/hero/boot-sequence";
 import { useSpiderVerse } from "@/components/sections/hero/spider-verse";
@@ -33,6 +34,19 @@ const TONE: Record<LineTone, string> = {
 };
 
 function OutputLine({ line }: { line: TerminalLine }) {
+	if (line.pdf) {
+		return (
+			<p className="text-sm">
+				<PdfDialog
+					url={line.pdf.url}
+					fileName={line.pdf.fileName}
+					label={line.pdf.label}
+					trigger={line.text}
+				/>
+			</p>
+		);
+	}
+
 	if (line.href) {
 		return (
 			<p className="text-sm">
