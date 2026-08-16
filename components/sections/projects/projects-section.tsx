@@ -9,7 +9,7 @@ import { formatUrlLabel } from "@/lib/format";
 
 const GITHUB = SOCIAL_LINKS.find((link) => link.platform === "github");
 
-const PER_PAGE = 1;
+const PER_PAGE = 3;
 
 /** Entries keep their number from the full list, so page two still starts at 03. */
 function buildPages() {
