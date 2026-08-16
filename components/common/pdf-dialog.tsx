@@ -4,7 +4,7 @@ import { Dialog } from "radix-ui";
 
 import { BracketButton, BracketLink } from "@/components/common/bracket-link";
 import { PromptChrome } from "@/components/common/prompt-line";
-import { toEmbedUrl } from "@/lib/format";
+import { toDownloadUrl, toEmbedUrl } from "@/lib/format";
 
 type PdfDialogProps = {
 	/** Shareable link to the document. */
@@ -46,11 +46,23 @@ export function PdfDialog({
 							<span className="truncate">open {fileName}</span>
 						</Dialog.Title>
 
-						<Dialog.Close asChild>
-							<BracketButton className="shrink-0 text-muted-foreground">
-								close
-							</BracketButton>
-						</Dialog.Close>
+						<div className="flex shrink-0 items-baseline gap-x-4">
+							<BracketLink
+								href={toDownloadUrl(url)}
+								download={fileName}
+								target="_blank"
+								rel="noreferrer"
+								className="text-muted-foreground"
+							>
+								download
+							</BracketLink>
+
+							<Dialog.Close asChild>
+								<BracketButton className="text-muted-foreground">
+									close
+								</BracketButton>
+							</Dialog.Close>
+						</div>
 					</div>
 
 					<iframe

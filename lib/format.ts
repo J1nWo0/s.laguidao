@@ -92,6 +92,34 @@ export function toEmbedUrl(url: string): string {
 	return url;
 }
 
+/**
+ * Rewrites share links from the common document hosts into a form that starts
+ * a download. Unknown hosts pass through untouched.
+ */
+export function toDownloadUrl(url: string): string {
+	const drive = url.match(/drive\.google\.com\/file\/d\/([^/?#]+)/);
+	if (drive) return `https://drive.google.com/uc?export=download&id=${drive[1]}`;
+
+	const workspace = url.match(
+		/docs\.google\.com\/(document|presentation|spreadsheets)\/d\/([^/?#]+)/,
+	);
+	if (workspace) {
+		const [, kind, id] = workspace;
+		if (kind === "presentation") {
+			return `https://docs.google.com/presentation/d/${id}/export/pdf`;
+		}
+		return `https://docs.google.com/${kind}/d/${id}/export?format=pdf`;
+	}
+
+	if (url.includes("dropbox.com")) {
+		const dl = url.replace(/([?&])(dl|raw)=\d\b/, "$1dl=1");
+		if (dl !== url) return dl;
+		return `${url}${url.includes("?") ? "&" : "?"}dl=1`;
+	}
+
+	return url;
+}
+
 /** Strips the protocol and trailing slash so URLs read well as link labels. */
 export function formatUrlLabel(url: string): string {
 	return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
