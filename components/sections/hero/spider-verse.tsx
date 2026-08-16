@@ -6,18 +6,23 @@ import { PROFILE } from "@/data/profile";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { getStrictContext } from "@/lib/get-strict-context";
 import { cn } from "@/lib/utils";
+import type { HeroEffect } from "@/types";
 
 /** Glitch in, swap the name, hold, then glitch back out. */
 const TEAR_MS = 220;
 const SETTLE_MS = 480;
 const HOLD_MS = 4200;
 
-type SpiderVerseContext = {
+type GlitchState = {
 	/** The mask currently on the heading, or `null` for the real name. */
 	alias: string | null;
 	/** True while the name is tearing between the two. */
 	tearing: boolean;
-	reveal: (alias: string) => void;
+};
+
+type SpiderVerseContext = {
+	play: (effect: HeroEffect) => void;
+	glitch: GlitchState;
 };
 
 const [SpiderVerseProvider, useSpiderVerse] =
@@ -25,12 +30,7 @@ const [SpiderVerseProvider, useSpiderVerse] =
 
 export { useSpiderVerse };
 
-/**
- * Holds the mask the hero prompt has been talked into wearing. The terminal
- * that triggers it and the heading that shows it are siblings, so the state
- * has to live above both.
- */
-export function SpiderVerse({ children }: { children: React.ReactNode }) {
+function useGlitchController() {
 	const reduced = useMediaQuery("(prefers-reduced-motion: reduce)");
 	const [alias, setAlias] = React.useState<string | null>(null);
 	const [tearing, setTearing] = React.useState(false);
@@ -71,9 +71,40 @@ export function SpiderVerse({ children }: { children: React.ReactNode }) {
 		[clearTimers, reduced],
 	);
 
+	return { alias, tearing, reveal };
+}
+
+/**
+ * Holds every visual the hero prompt can be talked into playing. The terminal
+ * that triggers them and the heading that shows them are siblings, so the bus
+ * has to live above both.
+ */
+export function SpiderVerse({ children }: { children: React.ReactNode }) {
+	const { alias, tearing, reveal } = useGlitchController();
+
+	const play = React.useCallback(
+		(effect: HeroEffect) => {
+			const handlers = {
+				glitch: (next: Extract<HeroEffect, { type: "glitch" }>) => {
+					reveal(next.alias);
+				},
+			} satisfies {
+				[T in HeroEffect["type"]]: (
+					effect: Extract<HeroEffect, { type: T }>,
+				) => void;
+			};
+
+			handlers[effect.type](effect);
+		},
+		[reveal],
+	);
+
 	const value = React.useMemo(
-		() => ({ alias, tearing, reveal }),
-		[alias, tearing, reveal],
+		() => ({
+			play,
+			glitch: { alias, tearing },
+		}),
+		[play, alias, tearing],
 	);
 
 	return (
@@ -87,15 +118,15 @@ export function SpiderVerse({ children }: { children: React.ReactNode }) {
  * still.
  */
 export function GlitchName({ className }: { className?: string }) {
-	const { alias, tearing } = useSpiderVerse();
-	const shown = alias ?? PROFILE.fullName;
+	const { glitch } = useSpiderVerse();
+	const shown = glitch.alias ?? PROFILE.fullName;
 
 	return (
 		<>
 			<span
 				aria-hidden
 				data-text={shown}
-				data-glitch={tearing ? "on" : "off"}
+				data-glitch={glitch.tearing ? "on" : "off"}
 				className={cn("glitch", className)}
 			>
 				{shown}
