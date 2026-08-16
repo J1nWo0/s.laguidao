@@ -9,7 +9,7 @@ const bracket =
   "select-none text-term group-hover:animate-caret"; // blink caret
   // "select-none text-term group-hover:text-term"; // no blink caret
 
-const arrow = "select-none text-term";
+const arrow = "select-none hover:text-term";
 
 function BracketContent({
 	external,
