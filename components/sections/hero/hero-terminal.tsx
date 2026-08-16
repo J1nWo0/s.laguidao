@@ -304,7 +304,7 @@ export function HeroTerminal({ step }: { step: number }) {
 						spellCheck={false}
 						enterKeyHint="go"
 						className="w-full bg-transparent text-foreground caret-term outline-none"
-            placeholder="Type 'help' to list commands"
+            // placeholder="Type 'help' to list commands"
 					/>
 
 					{/* Monospace, so the caret lands on the character grid. */}
@@ -320,12 +320,12 @@ export function HeroTerminal({ step }: { step: number }) {
 				</span>
 			</form>
 
-			{/* {entries.length === 0 ? (
+			{entries.length === 0 ? (
 				<p className="mt-4 text-xs text-muted-foreground">
 					this prompt is live — type{" "}
 					<span className="text-term">help</span> and hit enter
 				</p>
-			) : null} */}
+			) : null}
 		</div>
 	);
 }
