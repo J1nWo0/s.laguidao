@@ -6,7 +6,8 @@ const wrapper =
 	"group inline-flex items-baseline gap-1.5 text-sm text-foreground transition-colors hover:text-term focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-term";
 
 const bracket =
-	"select-none text-term transition-colors group-hover:text-term";;
+	"select-none text-term transition-colors group-hover:animate-caret"; // blink caret
+	// "select-none text-term transition-colors group-hover:text-term"; // no blink caret
 
 function BracketContent({
 	external,
