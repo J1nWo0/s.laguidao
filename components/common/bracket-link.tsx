@@ -5,9 +5,11 @@ import { cn } from "@/lib/utils";
 const wrapper =
 	"group inline-flex items-baseline gap-1.5 text-sm text-foreground transition-colors hover:text-term focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-term";
 
-const bracket =
-	"select-none text-term transition-colors group-hover:animate-caret"; // blink caret
-	// "select-none text-term transition-colors group-hover:text-term"; // no blink caret
+const bracket = 
+  "select-none text-term group-hover:animate-caret"; // blink caret
+  // "select-none text-term group-hover:text-term"; // no blink caret
+
+const arrow = "select-none text-term";
 
 function BracketContent({
 	external,
@@ -23,7 +25,7 @@ function BracketContent({
 			</span>
 			<span>{children}</span>
 			{external ? (
-				<span aria-hidden className={bracket}>
+				<span aria-hidden className={arrow}>
 					&#8599;
 				</span>
 			) : null}
