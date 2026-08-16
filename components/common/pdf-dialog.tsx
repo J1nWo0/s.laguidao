@@ -34,11 +34,11 @@ export function PdfDialog({
 			</Dialog.Trigger>
 
 			<Dialog.Portal>
-				<Dialog.Overlay className="fixed inset-0 z-[110] bg-black/70 duration-100 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+				<Dialog.Overlay className="fixed inset-0 z-110 bg-black/70 duration-100 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
 
 				<Dialog.Content
 					aria-describedby={undefined}
-					className="fixed inset-3 z-[110] flex flex-col border border-border bg-background duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 sm:inset-6 lg:inset-10"
+					className="fixed inset-3 z-110 flex flex-col border border-border bg-background duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 sm:inset-6 lg:inset-10"
 				>
 					<div className="flex items-center justify-between gap-4 border-b border-border px-4 py-2.5">
 						<Dialog.Title className="flex min-w-0 items-baseline gap-2 text-xs sm:text-sm">
