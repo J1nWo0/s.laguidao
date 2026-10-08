@@ -11,7 +11,7 @@ export const EXPERIENCE: readonly WorkExperience[] = [
 		workType: "Remote",
 		type: "Full-time",
 		start: "2025-08",
-		end: null,
+		end: "2026-10",
 		summary:
 			"Own the automation layer behind internal tooling — from scheduled data safety nets to AI-assisted feature pipelines.",
 		highlights: [
