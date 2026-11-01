@@ -1,10 +1,27 @@
 import { Section } from "@/components/common/section";
 import { SplitReveal } from "@/components/common/split-reveal";
 import { EDUCATION } from "@/data/education";
+import { EXPERIENCE } from "@/data/experience";
 import { PROFILE, QUICK_FACTS } from "@/data/profile";
+/**
+ * A `null` "Currently" falls back to "Previously" with the most recent job;
+ * any other `null` fact is left out.
+ */
+function visibleFacts(): { label: string; value: string }[] {
+	const latest = EXPERIENCE[0];
+
+	return QUICK_FACTS.flatMap((fact) => {
+		if (fact.value !== null) return [{ label: fact.label, value: fact.value }];
+		if (fact.label === "Currently" && latest) {
+			return [{ label: "Previously", value: `${latest.role} at ${latest.company}` }];
+		}
+		return [];
+	});
+}
 
 export function AboutSection() {
 	const [lead, ...rest] = PROFILE.bio;
+	const facts = visibleFacts();
 
 	return (
 		<Section id="about" index="01" label="About">
@@ -16,7 +33,7 @@ export function AboutSection() {
 
 			<div className="grid gap-12 lg:grid-cols-12">
 				<dl className="grid grid-cols-2 gap-x-8 gap-y-8 lg:col-span-7 lg:grid-cols-4">
-					{QUICK_FACTS.map((fact) => (
+					{facts.map((fact) => (
 						<div key={fact.label} className="flex flex-col gap-2">
 							<dt className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
 								{fact.label}

@@ -107,5 +107,5 @@ export type Education = {
 
 export type Fact = {
 	label: string;
-	value: string;
+	value: string | null;
 };
