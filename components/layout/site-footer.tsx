@@ -1,40 +1,37 @@
+import { ArrowLink } from "@/components/common/arrow-link";
 import { Container } from "@/components/common/container";
-import { LogoMark } from "@/components/layout/logo-mark";
+import { LocalTime } from "@/components/common/local-time";
 import { PROFILE, SOCIAL_LINKS } from "@/data/profile";
 
 export function SiteFooter() {
 	return (
-		<footer className="border-t border-border py-6">
-			<Container className="flex flex-col gap-3 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-				<div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-					<LogoMark className="text-xs" />
-					<span aria-hidden className="opacity-40">
-						&#183;
-					</span>
+		<footer className="py-8">
+			<Container>
+				<div className="hairline flex flex-col gap-4 pt-8 text-sm text-muted-foreground sm:flex-row sm:items-baseline sm:justify-between">
 					<span>
 						&#169; {new Date().getFullYear()} {PROFILE.fullName}
 					</span>
-				</div>
 
-				<nav
-					aria-label="Social profiles"
-					className="flex items-center gap-4"
-				>
-					{SOCIAL_LINKS.map((link) => (
+					<span>
+						{PROFILE.location} &#183; <LocalTime />
+					</span>
+
+					<div className="flex items-baseline gap-6">
+						<nav aria-label="Social profiles" className="flex items-baseline gap-6">
+							{SOCIAL_LINKS.filter((link) => link.platform !== "email").map((link) => (
+								<ArrowLink key={link.platform} href={link.href} external>
+									{link.label}
+								</ArrowLink>
+							))}
+						</nav>
 						<a
-							key={link.platform}
-							href={link.href}
-							target={
-								link.platform === "email" ? undefined : "_blank"
-							}
-							rel="noreferrer"
-							className="lowercase transition-colors hover:text-term"
+							href="#hero"
+							className="text-foreground outline-none transition-colors hover:text-brand focus-visible:text-brand"
 						>
-							{link.label}
-							<span aria-hidden> &#8599;</span>
+							Back to top &#8593;
 						</a>
-					))}
-				</nav>
+					</div>
+				</div>
 			</Container>
 		</footer>
 	);

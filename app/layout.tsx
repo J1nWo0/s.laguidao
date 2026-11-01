@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { JetBrains_Mono } from "next/font/google";
+import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { siteConfig } from "@/config/site";
@@ -8,8 +8,16 @@ import { cn } from "@/lib/utils";
 
 import "./globals.css";
 
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument-serif",
+  weight: "400",
+  style: ["normal", "italic"],
   subsets: ["latin"],
   display: "swap",
 });
@@ -42,8 +50,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
-    { media: "(prefers-color-scheme: dark)", color: "#090909" },
+    { media: "(prefers-color-scheme: light)", color: "#f4f3ef" },
+    { media: "(prefers-color-scheme: dark)", color: "#0e0e0e" },
   ],
 };
 
@@ -70,12 +78,16 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(jetbrainsMono.variable, "h-full antialiased")}
+      className={cn(
+        instrumentSans.variable,
+        instrumentSerif.variable,
+        "h-full antialiased",
+      )}
     >
       <body className="flex min-h-full flex-col">
         {/* Entrances are scripted, so without JS everything simply starts visible. */}
         <noscript>
-          <style>{`.reveal[data-reveal="pending"],.reveal-stagger[data-reveal="pending"]>*{opacity:1;transform:none}`}</style>
+          <style>{`.reveal[data-reveal="pending"],.reveal-stagger[data-reveal="pending"]>*,[data-reveal="pending"] .split-inner{opacity:1;transform:none}`}</style>
         </noscript>
 
         <ThemeProvider>{children}</ThemeProvider>

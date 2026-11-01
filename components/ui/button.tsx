@@ -10,8 +10,8 @@ const buttonVariants = cva(
 		variants: {
 			variant: {
 				default:
-					"border-border text-foreground hover:border-term hover:text-term",
-				ghost: "text-muted-foreground hover:text-term",
+					"border-border text-foreground hover:border-brand hover:text-brand",
+				ghost: "text-muted-foreground hover:text-brand",
 			},
 			size: {
 				default: "h-8 gap-1.5 px-3",

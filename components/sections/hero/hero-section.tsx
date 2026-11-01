@@ -1,125 +1,90 @@
 import Image from "next/image";
 
+import { ArrowLink } from "@/components/common/arrow-link";
 import { Container } from "@/components/common/container";
+import { LocalTime } from "@/components/common/local-time";
+import { PdfDialog } from "@/components/common/pdf-dialog";
+import { Reveal } from "@/components/common/reveal";
 import { sectionHeadingId } from "@/components/common/section";
-import { TechList } from "@/components/common/tech-list";
-import {
-	BootPrompt,
-	BootReveal,
-	BootSequence,
-} from "@/components/sections/hero/boot-sequence";
-import { HeroActions } from "@/components/sections/hero/hero-actions";
-import { HeroTerminal } from "@/components/sections/hero/hero-terminal";
-import {
-	GlitchName,
-	SpiderVerse,
-} from "@/components/sections/hero/spider-verse";
-import { MARQUEE_TECHNOLOGIES } from "@/data/navigation";
+import { SplitReveal } from "@/components/common/split-reveal";
 import { PROFILE } from "@/data/profile";
-import { HIRE_SCRIPT } from "@/lib/terminal";
 
-/**
- * The hero reads as a shell session: each prompt introduces the output below it,
- * and on load the whole thing types itself out one command at a time.
- */
+const [firstName] = PROFILE.fullName.split(" ");
+const lastName = PROFILE.fullName.split(" ").at(-1) ?? "";
+
+/** One screen: the name, set as large as the viewport allows, and little else. */
 export function HeroSection() {
 	return (
 		<section
 			id="hero"
 			aria-labelledby={sectionHeadingId("hero")}
-			className="pt-28 pb-16 sm:pt-32 sm:pb-20"
+			className="flex min-h-svh flex-col pt-16"
 		>
-			<Container>
-				<BootSequence>
-					{/* The prompt talks to the heading, so the mask is held above both. */}
-					<SpiderVerse>
-						<div className="flex flex-col gap-4">
-							<div className="flex flex-col gap-1.5">
-								<BootPrompt step={0} command="whoami" />
+			<Container className="flex flex-1 flex-col justify-between gap-12 py-10 sm:py-14">
+				<Reveal className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2 text-sm text-muted-foreground">
+					<span className="flex items-center gap-2.5">
+						<span aria-hidden className="relative flex size-2">
+							<span className="absolute inset-0 animate-ping rounded-full bg-brand opacity-60" />
+							<span className="relative size-2 rounded-full bg-brand" />
+						</span>
+						{PROFILE.availability}
+					</span>
+					<span>
+						Manila, PH &#183; <LocalTime />
+					</span>
+				</Reveal>
 
-								<BootReveal
-									step={0}
-									className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:gap-6"
-								>
-									<Image
-										src={PROFILE.avatar}
-										alt={`Portrait of ${PROFILE.fullName}`}
-										width={400}
-										height={400}
-										priority
-										className="size-20 shrink-0 border border-border object-cover sm:size-24"
-									/>
+				<Reveal>
+					<h1
+						id={sectionHeadingId("hero")}
+						className="text-[clamp(3.5rem,19vw,6rem)] leading-[0.88] font-medium tracking-[-0.045em] sm:text-display"
+					>
+						<span className="sr-only">{PROFILE.fullName}</span>
+						<span aria-hidden className="block">
+							<SplitReveal as="span" text={firstName} className="block" />
+							<SplitReveal
+								as="span"
+								text={lastName}
+								accent={[lastName]}
+								className="block sm:ps-[0.6em]"
+							/>
+						</span>
+					</h1>
+				</Reveal>
 
-									<div className="flex flex-col gap-2">
-										<h1
-											id={sectionHeadingId("hero")}
-											className="text-2xl leading-tight sm:text-3xl"
-										>
-											<GlitchName />
-										</h1>
+				<Reveal
+					stagger
+					className="grid items-end gap-8 sm:grid-cols-[auto_1fr_auto] sm:gap-10"
+				>
+					<Image
+						src={PROFILE.avatar}
+						alt={`Portrait of ${PROFILE.fullName}`}
+						width={400}
+						height={400}
+						priority
+						className="size-20 rounded-full object-cover grayscale transition-[filter] duration-500 hover:grayscale-0 sm:size-24"
+					/>
 
-										<p className="text-xs text-muted-foreground sm:text-sm">
-											{PROFILE.roles.join(" \u00b7 ")}
-										</p>
+					<p className="max-w-[28ch] text-lg leading-snug sm:text-xl">
+						{PROFILE.role} building apps{" "}
+						<span className="font-serif italic">&amp;</span> AI automation.
+					</p>
 
-										<p className="text-xs text-muted-foreground">
-											{PROFILE.location} &#183;{" "}
-											{PROFILE.timezone}
-										</p>
-									</div>
-								</BootReveal>
-							</div>
-
-							<div className="flex flex-col gap-1.5">
-								<BootPrompt step={1} command="cat headline.txt" />
-
-								<BootReveal
-									step={1}
-									className="flex flex-col gap-3"
-								>
-									<p className="max-w-[38ch] text-xl leading-snug sm:text-2xl">
-										{PROFILE.headline.join(" ")}
-									</p>
-
-									<p className="max-w-[68ch] text-sm leading-relaxed text-muted-foreground">
-										{PROFILE.tagline}
-									</p>
-								</BootReveal>
-							</div>
-
-							<div className="flex flex-col gap-1.5">
-								<BootPrompt step={2} command="ls stack/" />
-
-								<BootReveal step={2}>
-									<TechList
-										items={MARQUEE_TECHNOLOGIES}
-										className="max-w-[68ch] text-sm"
-									/>
-								</BootReveal>
-							</div>
-
-							<div className="flex flex-col gap-1.5">
-								<BootPrompt step={3} command={HIRE_SCRIPT} />
-
-								<BootReveal
-									step={3}
-									className="flex flex-col gap-3"
-								>
-									<HeroActions />
-
-									<p className="text-xs text-muted-foreground">
-										status:{" "}
-										<span className="text-term">
-											{PROFILE.availability}
-										</span>
-									</p>
-								</BootReveal>
-							</div>
-							{/* The sequence hands the prompt over to the visitor. */}
-							<HeroTerminal step={4} />
-						</div>
-					</SpiderVerse>
-				</BootSequence>
+					<div className="flex items-baseline gap-8">
+						{PROFILE.resumeUrl ? (
+							<PdfDialog
+								url={PROFILE.resumeUrl}
+								fileName="sherwin-laguidao-resume.pdf"
+								label={`${PROFILE.fullName} — Resume`}
+								trigger="Resume"
+								triggerClassName="text-base"
+							/>
+						) : null}
+						<ArrowLink href="#contact" className="text-base">
+							Get in touch
+						</ArrowLink>
+					</div>
+				</Reveal>
 			</Container>
 		</section>
 	);

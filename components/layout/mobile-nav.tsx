@@ -1,82 +1,76 @@
 "use client";
 
-import * as React from "react";
+import { Dialog } from "radix-ui";
+import { useState } from "react";
 
-import { BracketButton } from "@/components/common/bracket-link";
-import {
-	Sheet,
-	SheetContent,
-	SheetHeader,
-	SheetTitle,
-	SheetTrigger,
-} from "@/components/ui/sheet";
+import { ArrowLink } from "@/components/common/arrow-link";
+import { Container } from "@/components/common/container";
+import { LocalTime } from "@/components/common/local-time";
 import { NAV_ITEMS } from "@/data/navigation";
 import { PROFILE, SOCIAL_LINKS } from "@/data/profile";
 import { cn } from "@/lib/utils";
 
+/** Full-screen menu for small screens: the section names, set large. */
 export function MobileNav({ activeId }: { activeId: string | null }) {
-	const [open, setOpen] = React.useState(false);
+	const [open, setOpen] = useState(false);
 
 	return (
-		<Sheet open={open} onOpenChange={setOpen}>
-			<SheetTrigger asChild>
-				<BracketButton className="text-muted-foreground md:hidden">
-					menu
-				</BracketButton>
-			</SheetTrigger>
+		<Dialog.Root open={open} onOpenChange={setOpen}>
+			<Dialog.Trigger className="text-sm outline-none transition-colors hover:text-brand focus-visible:text-brand md:hidden">
+				Menu
+			</Dialog.Trigger>
 
-			<SheetContent
-				side="top"
-				className="gap-0 border-border bg-background pb-5"
-			>
-				<SheetHeader className="border-b border-border px-5 py-3">
-					<SheetTitle className="text-xs font-normal uppercase tracking-[0.2em] text-muted-foreground">
-						Sections
-					</SheetTitle>
-				</SheetHeader>
+			<Dialog.Portal>
+				<Dialog.Content
+					aria-describedby={undefined}
+					className="fixed inset-0 z-100 flex flex-col bg-background duration-300 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0"
+				>
+					<Container className="flex h-16 shrink-0 items-center justify-between">
+						<Dialog.Title className="text-sm font-medium">
+							{PROFILE.fullName}
+						</Dialog.Title>
+						<Dialog.Close className="text-sm outline-none transition-colors hover:text-brand focus-visible:text-brand">
+							Close
+						</Dialog.Close>
+					</Container>
 
-				<nav aria-label="Sections" className="flex flex-col px-5 py-2">
-					{NAV_ITEMS.map((item, index) => (
-						<a
-							key={item.id}
-							href={`#${item.id}`}
-							onClick={() => setOpen(false)}
-							className={cn(
-								"flex items-baseline gap-3 py-2.5 text-sm lowercase transition-colors hover:text-term",
-								activeId === item.id
-									? "text-term"
-									: "text-muted-foreground",
-							)}
-						>
-							<span
-								aria-hidden
-								className="text-xs tabular-nums opacity-60"
-							>
-								{String(index + 1).padStart(2, "0")}
-							</span>
-							{item.label}
-						</a>
-					))}
-				</nav>
+					<Container className="flex flex-1 flex-col justify-center">
+						<nav aria-label="Sections">
+							<ol className="flex flex-col">
+								{NAV_ITEMS.map((item, index) => (
+									<li key={item.id} className="hairline">
+										<a
+											href={`#${item.id}`}
+											onClick={() => setOpen(false)}
+											aria-current={activeId === item.id ? "true" : undefined}
+											className={cn(
+												"flex items-baseline justify-between py-4 text-5xl tracking-tight outline-none transition-colors hover:text-brand focus-visible:text-brand",
+												activeId === item.id && "text-brand",
+											)}
+										>
+											{item.label}
+											<span className="text-xs tabular-nums text-muted-foreground">
+												{String(index + 1).padStart(2, "0")}
+											</span>
+										</a>
+									</li>
+								))}
+							</ol>
+						</nav>
+					</Container>
 
-				<div className="mx-5 flex flex-wrap items-center gap-x-4 gap-y-1 rule pt-4 text-xs text-muted-foreground">
-					{SOCIAL_LINKS.map((link) => (
-						<a
-							key={link.platform}
-							href={link.href}
-							target={
-								link.platform === "email" ? undefined : "_blank"
-							}
-							rel="noreferrer"
-							className="lowercase transition-colors hover:text-term"
-						>
-							{link.label}
-							<span aria-hidden> &#8599;</span>
-						</a>
-					))}
-					<span className="ms-auto">{PROFILE.location}</span>
-				</div>
-			</SheetContent>
-		</Sheet>
+					<Container className="flex flex-wrap items-baseline gap-x-6 gap-y-2 py-6 text-muted-foreground">
+						{SOCIAL_LINKS.filter((link) => link.platform !== "email").map((link) => (
+							<ArrowLink key={link.platform} href={link.href} external>
+								{link.label}
+							</ArrowLink>
+						))}
+						<span className="ms-auto text-sm">
+							Manila <LocalTime />
+						</span>
+					</Container>
+				</Dialog.Content>
+			</Dialog.Portal>
+		</Dialog.Root>
 	);
 }

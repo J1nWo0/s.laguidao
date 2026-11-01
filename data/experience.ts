@@ -23,7 +23,7 @@ export const EXPERIENCE: readonly WorkExperience[] = [
 	},
 	{
 		id: "iam-techsolution",
-		role: "Full Stack Software Developer",
+		role: "Full Stack Developer Intern",
 		company: "iAm TechSolution Inc.",
 		companyUrl: null,
 		location: "Makati, Philippines",

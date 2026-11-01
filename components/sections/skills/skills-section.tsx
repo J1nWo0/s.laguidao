@@ -1,31 +1,45 @@
+import { Marquee } from "@/components/common/marquee";
 import { Section } from "@/components/common/section";
-import { SectionHeading } from "@/components/common/section-heading";
-import { TreeList } from "@/components/common/tree-list";
-import { SkillGroupRow } from "@/components/sections/skills/skill-group-row";
-import { SkillsTotals } from "@/components/sections/skills/skills-totals";
-import { SKILL_GROUPS } from "@/data/skills";
+import { SplitReveal } from "@/components/common/split-reveal";
+import { MARQUEE_TECHNOLOGIES } from "@/data/navigation";
+import { SKILL_GROUPS, SKILL_TOTALS } from "@/data/skills";
 
 export function SkillsSection() {
 	return (
-		<Section id="skills" className="rule">
-			<SectionHeading
-				sectionId="skills"
-				index="04"
-				label="skills"
-				description="The stack I reach for by instinct, grouped by the kind of problem it solves."
+		<Section
+			id="skills"
+			index="04"
+			label="Skills"
+			meta={`${SKILL_TOTALS.technologies} tools`}
+		>
+			<SplitReveal
+				text="Tools I trust."
+				accent={["trust."]}
+				className="text-statement font-medium tracking-[-0.03em]"
 			/>
 
-			<div className="mt-10 flex flex-col gap-4">
-				<p className="text-sm text-muted-foreground">skills/</p>
+			{/* Bleeds past the container so the strip runs edge to edge. */}
+			<Marquee
+				items={MARQUEE_TECHNOLOGIES}
+				className="-mx-5 py-2 text-4xl tracking-tight sm:-mx-8 sm:text-6xl lg:-mx-12"
+			/>
 
-				<TreeList
-					className="gap-4"
-					items={SKILL_GROUPS.map((group) => (
-						<SkillGroupRow key={group.id} group={group} />
-					))}
-				/>
-
-				<SkillsTotals className="pt-2 text-xs text-muted-foreground" />
+			<div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
+				{SKILL_GROUPS.map((group, index) => (
+					<div key={group.id} className="hairline flex flex-col gap-5 pt-5">
+						<h3 className="flex items-baseline justify-between text-xs uppercase tracking-[0.18em] text-muted-foreground">
+							{group.title}
+							<span className="tabular-nums">
+								{String(index + 1).padStart(2, "0")}
+							</span>
+						</h3>
+						<ul className="flex flex-col gap-1.5 text-xl tracking-tight">
+							{group.skills.map((skill) => (
+								<li key={skill}>{skill}</li>
+							))}
+						</ul>
+					</div>
+				))}
 			</div>
 		</Section>
 	);

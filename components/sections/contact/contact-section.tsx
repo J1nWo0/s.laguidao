@@ -1,52 +1,55 @@
-import { PromptLine } from "@/components/common/prompt-line";
+import { ArrowLink } from "@/components/common/arrow-link";
+import { PdfDialog } from "@/components/common/pdf-dialog";
 import { Section } from "@/components/common/section";
-import {
-	SectionHeading,
-	SubHeading,
-} from "@/components/common/section-heading";
-import { ContactChannels } from "@/components/sections/contact/contact-channels";
+import { SplitReveal } from "@/components/common/split-reveal";
 import { CopyEmailButton } from "@/components/sections/contact/copy-email-button";
-import { PROFILE } from "@/data/profile";
+import { PROFILE, SOCIAL_LINKS } from "@/data/profile";
+
+/** Split so a narrow screen wraps the address at the `@`, never mid-word. */
+const [emailLocal, emailDomain] = PROFILE.email.split("@");
 
 export function ContactSection() {
 	return (
-		<Section id="contact" className="rule">
-			<SectionHeading
-				sectionId="contact"
-				index="05"
-				label="contact"
-				description="Whether it's an API that needs designing or a manual process that deserves to be automated, I'd like to hear about it."
+		<Section id="contact" index="05" label="Contact" className="pb-16 sm:pb-20">
+			<SplitReveal
+				text="Have a role or project in mind?"
+				accent={["mind?"]}
+				className="max-w-[20ch] text-statement font-medium tracking-[-0.03em]"
 			/>
 
-			<div className="mt-10 flex flex-col gap-10">
-				<div className="flex flex-col gap-4">
-					<PromptLine
-						command={'mail -s "let\u2019s build something"'}
-					/>
+			<div className="flex flex-col gap-8">
+				<a
+					href={`mailto:${PROFILE.email}`}
+					className="group/email w-fit text-[clamp(1.75rem,5.6vw,5.25rem)] leading-[1.05] font-medium tracking-[-0.035em] outline-none transition-colors hover:text-brand focus-visible:text-brand"
+				>
+					{emailLocal}
+					<wbr />@{emailDomain}
+					<span
+						aria-hidden
+						className="ms-[0.2em] inline-block transition-transform duration-500 group-hover/email:-translate-y-[0.1em] group-hover/email:translate-x-[0.1em]"
+					>
+						&#8599;
+					</span>
+				</a>
 
-					<div className="flex flex-wrap items-baseline gap-x-6 gap-y-3">
-						<a
-							href={`mailto:${PROFILE.email}`}
-							className="break-all text-base underline decoration-dotted underline-offset-4 transition-colors hover:text-term sm:text-lg"
-						>
-							{PROFILE.email}
-						</a>
+				<div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+					<CopyEmailButton email={PROFILE.email} />
 
-						<CopyEmailButton email={PROFILE.email} />
-					</div>
+					{SOCIAL_LINKS.filter((link) => link.platform !== "email").map((link) => (
+						<ArrowLink key={link.platform} href={link.href} external className="text-base">
+							{link.label}
+						</ArrowLink>
+					))}
 
-					<p className="text-xs text-muted-foreground">
-						status:{" "}
-						<span className="text-term">
-							{PROFILE.availability}
-						</span>{" "}
-						&#183; {PROFILE.timezone}
-					</p>
-				</div>
-
-				<div className="flex flex-col gap-4">
-					<SubHeading>channels</SubHeading>
-					<ContactChannels />
+					{PROFILE.resumeUrl ? (
+						<PdfDialog
+							url={PROFILE.resumeUrl}
+							fileName="sherwin-laguidao-resume.pdf"
+							label={`${PROFILE.fullName} — Resume`}
+							trigger="Resume"
+							triggerClassName="text-base"
+						/>
+					) : null}
 				</div>
 			</div>
 		</Section>

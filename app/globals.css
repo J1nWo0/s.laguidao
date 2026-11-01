@@ -4,17 +4,20 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Real hover only — touch screens get the inline version of anything hover-driven. */
+@custom-variant hover-fine (@media (hover: hover) and (pointer: fine));
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  /* One typeface for the whole site — the terminal has no second voice. */
-  --font-sans: var(--font-jetbrains-mono), ui-monospace, monospace;
-  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
-  --font-heading: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  /* Reserved for the single accent word a section is allowed. */
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
 
-  --color-term: var(--term);
-  --color-term-foreground: var(--term-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
 
   --color-ring: var(--ring);
   --color-input: var(--input);
@@ -33,71 +36,77 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
 
-  --radius-sm: var(--radius);
+  --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: var(--radius);
-  --radius-lg: var(--radius);
-  --radius-xl: var(--radius);
-  --radius-2xl: var(--radius);
-  --radius-3xl: var(--radius);
-  --radius-4xl: var(--radius);
+  --radius-lg: calc(var(--radius) * 1.4);
+  --radius-xl: calc(var(--radius) * 2);
+  --radius-2xl: calc(var(--radius) * 2.6);
+  --radius-3xl: calc(var(--radius) * 3.2);
+  --radius-4xl: calc(var(--radius) * 4);
 
-  --animate-caret: caret-blink 1.1s steps(1) infinite;
+  /* Fluid display sizes: the hero name, section statements, the project index. */
+  --text-display: clamp(3.5rem, 13vw, 12.5rem);
+  --text-display--line-height: 0.88;
+  --text-statement: clamp(1.875rem, 4.6vw, 4rem);
+  --text-statement--line-height: 1.08;
+  --text-index: clamp(2.25rem, 6.4vw, 5.5rem);
+  --text-index--line-height: 1;
+
+  --animate-marquee: marquee 45s linear infinite;
 }
 
 :root {
-  /* Sharp corners everywhere. */
-  --radius: 0px;
+  --radius: 0.375rem;
 
-  --background: oklch(0.98 0 0);
-  --foreground: oklch(0.18 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0 0);
-  --secondary: oklch(0.955 0 0);
-  --secondary-foreground: oklch(0.18 0 0);
-  --muted: oklch(0.955 0 0);
-  --muted-foreground: oklch(0.48 0 0);
-  --accent: oklch(0.94 0 0);
-  --accent-foreground: oklch(0.18 0 0);
+  /* Warm paper and ink. */
+  --background: oklch(0.963 0.006 95);
+  --foreground: oklch(0.19 0 0);
+  --card: oklch(0.985 0.004 95);
+  --card-foreground: oklch(0.19 0 0);
+  --popover: oklch(0.975 0.005 95);
+  --popover-foreground: oklch(0.19 0 0);
+  --secondary: oklch(0.93 0.006 95);
+  --secondary-foreground: oklch(0.19 0 0);
+  --muted: oklch(0.93 0.006 95);
+  --muted-foreground: oklch(0.47 0.006 95);
+  --accent: oklch(0.92 0.008 95);
+  --accent-foreground: oklch(0.19 0 0);
   --destructive: oklch(0.55 0.2 27);
-  --border: oklch(0 0 0 / 0.11);
-  --input: oklch(0 0 0 / 0.14);
+  --border: oklch(0.19 0 0 / 0.12);
+  --input: oklch(0.19 0 0 / 0.16);
 
-  /* The single accent. Swap the hue to retheme the entire site:
-     amber  oklch(0.62 0.14 78)   cyan  oklch(0.58 0.11 205) */
-  --term: oklch(0.48 0.13 152);
-  --term-foreground: oklch(0.99 0 0);
+  /* The single accent. Change the hue here to recolour the whole site. */
+  --brand: oklch(0.49 0.2 262);
+  --brand-foreground: oklch(0.98 0.005 262);
 
-  --primary: var(--term);
-  --primary-foreground: var(--term-foreground);
-  --ring: var(--term);
+  --primary: var(--brand);
+  --primary-foreground: var(--brand-foreground);
+  --ring: var(--brand);
 }
 
 .dark {
-  --background: oklch(0.13 0 0);
-  --foreground: oklch(0.93 0 0);
-  --card: oklch(0.16 0 0);
-  --card-foreground: oklch(0.93 0 0);
-  --popover: oklch(0.16 0 0);
-  --popover-foreground: oklch(0.93 0 0);
-  --secondary: oklch(0.2 0 0);
-  --secondary-foreground: oklch(0.93 0 0);
-  --muted: oklch(0.2 0 0);
-  --muted-foreground: oklch(0.62 0 0);
-  --accent: oklch(0.22 0 0);
-  --accent-foreground: oklch(0.93 0 0);
+  --background: oklch(0.155 0 0);
+  --foreground: oklch(0.94 0 0);
+  --card: oklch(0.185 0 0);
+  --card-foreground: oklch(0.94 0 0);
+  --popover: oklch(0.175 0 0);
+  --popover-foreground: oklch(0.94 0 0);
+  --secondary: oklch(0.22 0 0);
+  --secondary-foreground: oklch(0.94 0 0);
+  --muted: oklch(0.22 0 0);
+  --muted-foreground: oklch(0.64 0 0);
+  --accent: oklch(0.24 0 0);
+  --accent-foreground: oklch(0.94 0 0);
   --destructive: oklch(0.7 0.19 22);
-  --border: oklch(1 0 0 / 0.11);
-  --input: oklch(1 0 0 / 0.14);
+  --border: oklch(1 0 0 / 0.12);
+  --input: oklch(1 0 0 / 0.16);
 
-  /* amber  oklch(0.8 0.14 78)   cyan  oklch(0.78 0.11 205) */
-  --term: oklch(0.78 0.15 152);
-  --term-foreground: oklch(0.15 0.02 152);
+  --brand: oklch(0.72 0.15 262);
+  --brand-foreground: oklch(0.16 0.03 262);
 
-  --primary: var(--term);
-  --primary-foreground: var(--term-foreground);
-  --ring: var(--term);
+  --primary: var(--brand);
+  --primary-foreground: var(--brand-foreground);
+  --ring: var(--brand);
 }
 
 @layer base {
@@ -106,9 +115,11 @@
   }
 
   html {
-    @apply font-mono;
+    @apply font-sans;
     scroll-behavior: smooth;
     -webkit-tap-highlight-color: transparent;
+    /* Lets `<details>` animate to `height: auto`. */
+    interpolate-size: allow-keywords;
   }
 
   body {
@@ -117,15 +128,29 @@
   }
 
   ::selection {
-    background-color: var(--term);
-    color: var(--term-foreground);
+    background-color: var(--brand);
+    color: var(--brand-foreground);
   }
 
-  /* Monospace already carries its own rhythm — no negative tracking. */
   h1,
   h2,
   h3 {
-    letter-spacing: 0;
+    letter-spacing: -0.02em;
+  }
+
+  summary {
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* The theme toggle draws its own circular reveal; skip the default crossfade. */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+    mix-blend-mode: normal;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -145,17 +170,8 @@
 }
 
 @layer utilities {
-  /* Hairline separators — the only structure this design uses. */
-  .rule {
+  .hairline {
     border-top: 1px solid var(--border);
-  }
-
-  .rule-dashed {
-    border-top: 1px dashed var(--border);
-  }
-
-  .text-term {
-    color: var(--term);
   }
 
   /* Entrances. Everything animated here is server-rendered and only faded in,
@@ -163,17 +179,16 @@
   .reveal,
   .reveal-stagger > * {
     transition:
-      opacity 320ms ease-out,
-      transform 320ms ease-out;
+      opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .reveal[data-reveal="pending"],
   .reveal-stagger[data-reveal="pending"] > * {
     opacity: 0;
-    transform: translateY(0.5rem);
+    transform: translateY(1rem);
   }
 
-  /* Direct children arrive in reading order rather than all at once. */
   .reveal-stagger[data-reveal="shown"] > :nth-child(2) {
     transition-delay: 90ms;
   }
@@ -182,107 +197,58 @@
     transition-delay: 180ms;
   }
 
-  /* Signal tear for the hero name. The copies read from `data-text`, so the
-     markup stays a single element and the layout never moves. */
-  .glitch {
-    position: relative;
+  /* Masked word reveal: each word rises out of its own clipped box, so the
+     heading appears to slide up line by line without measuring lines. */
+  .split-word {
     display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    /* Room for descenders and italic overhang inside the clip. */
+    padding-block-end: 0.2em;
+    margin-block-end: -0.2em;
+    padding-inline-end: 0.04em;
+    margin-inline-end: -0.04em;
   }
 
-  .glitch[data-glitch="on"] {
-    animation: glitch-skew 500ms steps(3, end) infinite;
+  .split-inner {
+    display: inline-block;
+    transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--i, 0) * 28ms);
   }
 
-  .glitch[data-glitch="on"]::before,
-  .glitch[data-glitch="on"]::after {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0;
-    color: var(--foreground);
-    /* Opaque, so each band hides the still copy underneath it. */
-    background: var(--background);
-    pointer-events: none;
+  [data-reveal="pending"] .split-inner {
+    transform: translateY(110%);
   }
 
-  .glitch[data-glitch="on"]::before {
-    text-shadow: 0.05em 0 0 oklch(0.62 0.24 27);
-    clip-path: inset(0 0 58% 0);
-    animation: glitch-a 460ms steps(2, end) infinite;
+  /* Accordion rows open to their natural height. */
+  .expand::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size 450ms cubic-bezier(0.22, 1, 0.36, 1),
+      content-visibility 450ms allow-discrete;
   }
 
-  .glitch[data-glitch="on"]::after {
-    text-shadow: -0.05em 0 0 oklch(0.68 0.16 240);
-    clip-path: inset(42% 0 0 0);
-    animation: glitch-b 380ms steps(2, end) infinite;
+  .expand[open]::details-content {
+    block-size: auto;
+  }
+
+  .marquee-mask {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
   }
 }
 
-@keyframes caret-blink {
-  0%,
-  49% {
-    opacity: 1;
-  }
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
-
-@keyframes glitch-skew {
-  0%,
-  100% {
+@keyframes marquee {
+  from {
     transform: translateX(0);
   }
-  33% {
-    transform: translateX(-0.02em);
-  }
-  66% {
-    transform: translateX(0.02em);
-  }
-}
-
-@keyframes glitch-a {
-  0% {
-    transform: translateX(-0.06em);
-    clip-path: inset(0 0 58% 0);
-  }
-  25% {
-    transform: translateX(0.05em);
-    clip-path: inset(0 0 72% 0);
-  }
-  50% {
-    transform: translateX(-0.04em);
-    clip-path: inset(0 0 45% 0);
-  }
-  75% {
-    transform: translateX(0.06em);
-    clip-path: inset(0 0 66% 0);
-  }
-  100% {
-    transform: translateX(-0.03em);
-    clip-path: inset(0 0 58% 0);
-  }
-}
-
-@keyframes glitch-b {
-  0% {
-    transform: translateX(0.06em);
-    clip-path: inset(42% 0 0 0);
-  }
-  25% {
-    transform: translateX(-0.05em);
-    clip-path: inset(28% 0 0 0);
-  }
-  50% {
-    transform: translateX(0.04em);
-    clip-path: inset(55% 0 0 0);
-  }
-  75% {
-    transform: translateX(-0.06em);
-    clip-path: inset(34% 0 0 0);
-  }
-  100% {
-    transform: translateX(0.03em);
-    clip-path: inset(42% 0 0 0);
+  to {
+    transform: translateX(-50%);
   }
 }

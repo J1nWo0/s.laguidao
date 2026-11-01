@@ -109,19 +109,3 @@ export type Fact = {
 	label: string;
 	value: string;
 };
-
-/**
- * A visual the hero prompt can play. New variants are the slot for new
- * easter-egg effects; `SpiderVerse.play` must handle each one.
- */
-export type HeroEffect = { type: "glitch"; alias: string };
-
-/** One of the masks the hero prompt can be talked into wearing. */
-export type SpiderIdentity = {
-	/** Matched loosely: lowercased, non-alphanumerics stripped. */
-	keys: readonly string[];
-	/** What the hero heading becomes. */
-	alias: string;
-	earth: string;
-	quote: string;
-};

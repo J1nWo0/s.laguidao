@@ -12,7 +12,7 @@ function parseYearMonth(value: string): Date {
 	return new Date(Date.UTC(year, (month ?? 1) - 1, 1));
 }
 
-export function formatMonthYear(value: string): string {
+function formatMonthYear(value: string): string {
 	return MONTH_YEAR.format(parseYearMonth(value));
 }
 
@@ -21,19 +21,6 @@ export function formatDateRange(start: string, end: string | null): string {
 	const from = formatMonthYear(start);
 	const to = end ? formatMonthYear(end) : PRESENT_LABEL;
 	return `${from} — ${to}`;
-}
-
-/** `"2025.08"` — sortable and fixed-width, so it aligns in a mono gutter. */
-export function formatCompactYearMonth(value: string): string {
-	const [year, month] = value.split("-");
-	return `${year}.${(month ?? "01").padStart(2, "0")}`;
-}
-
-/** `"2025.08 → now"`. Pass `null` as the end for an ongoing period. */
-export function formatCompactRange(start: string, end: string | null): string {
-	const from = formatCompactYearMonth(start);
-	const to = end ? formatCompactYearMonth(end) : "now";
-	return `${from} \u2192 ${to}`;
 }
 
 /** Inclusive month count between two year-months, ongoing periods run to today. */
@@ -118,9 +105,4 @@ export function toDownloadUrl(url: string): string {
 	}
 
 	return url;
-}
-
-/** Strips the protocol and trailing slash so URLs read well as link labels. */
-export function formatUrlLabel(url: string): string {
-	return url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 }

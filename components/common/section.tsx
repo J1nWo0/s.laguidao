@@ -1,5 +1,6 @@
 import { Container } from "@/components/common/container";
 import { Reveal } from "@/components/common/reveal";
+import { SectionLabel } from "@/components/common/section-label";
 import { cn } from "@/lib/utils";
 import type { SectionId } from "@/types";
 
@@ -10,67 +11,45 @@ export function sectionHeadingId(id: SectionId): string {
 
 type SectionProps = Omit<React.ComponentProps<"section">, "id"> & {
 	id: SectionId;
-	/** Escape hatch for sections that manage their own container width. */
-	bleed?: boolean;
-	containerClassName?: string;
+	/** Two-digit chapter number, e.g. `"01"`. */
+	index: string;
+	label: string;
+	/** Right-aligned counter such as `"3 projects"`. */
+	meta?: React.ReactNode;
 };
 
 /**
  * Consistent vertical rhythm, scroll-spy anchor and accessible labelling for
- * every top-level section of the page. The heading and the blocks under it fade
- * in the first time the section is scrolled to.
+ * every top-level section. The numbered label is the section's heading; the
+ * blocks under it fade in the first time the section is scrolled to.
  */
 export function Section({
 	id,
-	bleed = false,
+	index,
+	label,
+	meta,
 	className,
-	containerClassName,
 	children,
 	...props
 }: SectionProps) {
-	const content = <Reveal stagger>{children}</Reveal>;
-
 	return (
 		<section
 			id={id}
 			aria-labelledby={sectionHeadingId(id)}
-			className={cn("relative scroll-mt-16 py-16 sm:py-20", className)}
+			className={cn("relative scroll-mt-20 py-24 sm:py-32", className)}
 			{...props}
 		>
-			{bleed ? (
-				content
-			) : (
-				<Container className={containerClassName}>{content}</Container>
-			)}
+			<Container>
+				<Reveal stagger className="flex flex-col gap-12 sm:gap-16">
+					<SectionLabel
+						headingId={sectionHeadingId(id)}
+						index={index}
+						label={label}
+						meta={meta}
+					/>
+					{children}
+				</Reveal>
+			</Container>
 		</section>
-	);
-}
-
-/**
- * The layout that unifies experience, projects and education: mono metadata in
- * a fixed left gutter, content on the right. Stacks below `md` where there is
- * no room for two columns of monospace.
- */
-export function MetaRow({
-	meta,
-	className,
-	children,
-}: {
-	meta: React.ReactNode;
-	className?: string;
-	children: React.ReactNode;
-}) {
-	return (
-		<div
-			className={cn(
-				"grid gap-3 md:grid-cols-[7.5rem_1fr] md:gap-6",
-				className,
-			)}
-		>
-			<div className="flex flex-col gap-1 text-xs text-muted-foreground tabular-nums">
-				{meta}
-			</div>
-			<div className="min-w-0">{children}</div>
-		</div>
 	);
 }
