@@ -11,19 +11,3 @@ export const NAV_ITEMS: readonly NavItem[] = [
 export const NAV_SECTION_IDS: readonly NavSectionId[] = NAV_ITEMS.map(
 	(item) => item.id,
 );
-
-/** Technologies scrolled through the marquee strip under the hero. */
-export const MARQUEE_TECHNOLOGIES = [
-	"TypeScript",
-	"Node.js",
-	"Python",
-	"Fastify",
-	"Express",
-	"Next.js",
-	"MySQL",
-	"MongoDB",
-	"Docker",
-	"Linux",
-	"n8n",
-	"OpenAI",
-] as const;

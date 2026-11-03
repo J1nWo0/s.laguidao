@@ -51,8 +51,6 @@
   --text-statement--line-height: 1.08;
   --text-index: clamp(2.25rem, 6.4vw, 5.5rem);
   --text-index--line-height: 1;
-
-  --animate-marquee: marquee 45s linear infinite;
 }
 
 :root {
@@ -231,24 +229,5 @@
 
   .expand[open]::details-content {
     block-size: auto;
-  }
-
-  .marquee-mask {
-    mask-image: linear-gradient(
-      to right,
-      transparent,
-      black 8%,
-      black 92%,
-      transparent
-    );
-  }
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
   }
 }

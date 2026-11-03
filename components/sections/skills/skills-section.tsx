@@ -1,7 +1,5 @@
-import { Marquee } from "@/components/common/marquee";
 import { Section } from "@/components/common/section";
 import { SplitReveal } from "@/components/common/split-reveal";
-import { MARQUEE_TECHNOLOGIES } from "@/data/navigation";
 import { SKILL_GROUPS, SKILL_TOTALS } from "@/data/skills";
 
 export function SkillsSection() {
@@ -16,12 +14,6 @@ export function SkillsSection() {
 				text="Tools I trust."
 				accent={["trust."]}
 				className="text-statement font-medium tracking-[-0.03em]"
-			/>
-
-			{/* Bleeds past the container so the strip runs edge to edge. */}
-			<Marquee
-				items={MARQUEE_TECHNOLOGIES}
-				className="-mx-5 py-2 text-4xl tracking-tight sm:-mx-8 sm:text-6xl lg:-mx-12"
 			/>
 
 			<div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
