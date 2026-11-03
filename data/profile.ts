@@ -21,7 +21,7 @@ export const PROFILE = {
 	phone: "+63 927 985 2600",
 	availability: "Open to full-stack, backend & automation roles",
 	resumeUrl:
-  "https://drive.google.com/file/d/16GzA9huf3r1-dLq-U8n4xWSkegNW7LVU/view?usp=drive_link",
+  "https://drive.google.com/file/d/1MN9Yz-Ilf1l5WR4i9hJu-uR6yp6PKKvK/view?usp=sharing",
 	cvUrl: null,
 	headline: [
 		"I build modern apps",

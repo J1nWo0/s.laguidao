@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
   basePath: process.env.PAGES_BASE_PATH,
   // A static export ships without the image optimization server.
   images: { unoptimized: true },
+  devIndicators: false,
 };
 
 export default nextConfig;

@@ -7,6 +7,7 @@ import { PdfDialog } from "@/components/common/pdf-dialog";
 import { Reveal } from "@/components/common/reveal";
 import { sectionHeadingId } from "@/components/common/section";
 import { SplitReveal } from "@/components/common/split-reveal";
+import { HeroContours } from "@/components/sections/hero/hero-contours";
 import { PROFILE } from "@/data/profile";
 
 const [firstName] = PROFILE.fullName.split(" ");
@@ -18,8 +19,9 @@ export function HeroSection() {
 		<section
 			id="hero"
 			aria-labelledby={sectionHeadingId("hero")}
-			className="flex min-h-svh flex-col pt-16"
+			className="relative isolate flex min-h-svh flex-col overflow-hidden pt-16"
 		>
+			<HeroContours className="pointer-events-none absolute inset-0 -z-10 size-full [mask-image:radial-gradient(ellipse_55%_45%_at_30%_50%,transparent_20%,black_85%)]" />
 			<Container className="flex flex-1 flex-col justify-between gap-12 py-10 sm:py-14">
 				<Reveal className="flex flex-wrap items-center justify-between gap-x-8 gap-y-2 text-sm text-muted-foreground">
 					<span className="flex items-center gap-2.5">

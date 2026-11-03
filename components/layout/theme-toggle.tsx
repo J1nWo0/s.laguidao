@@ -6,56 +6,43 @@ import { flushSync } from "react-dom";
 import { useMounted } from "@/hooks/use-mounted";
 import { cn } from "@/lib/utils";
 
-type Mode = "system" | "light" | "dark";
-
-const ORDER: readonly Mode[] = ["system", "light", "dark"];
-
-const LABELS: Record<Mode, string> = {
-	system: "System",
-	light: "Light",
-	dark: "Dark",
-};
+type Shade = "light" | "dark";
 
 const toggleClass =
 	"flex items-center gap-2 text-sm text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:text-foreground";
 
-const systemPrefersDark = () =>
-	window.matchMedia("(prefers-color-scheme: dark)").matches;
+const osShade = (): Shade =>
+	window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 
 /**
- * Cycles System → Light → Dark. The label names the current mode. When the
- * visible theme actually changes, the new one is revealed as a circle growing
- * out of the button.
+ * Flips between light and dark, revealing the new theme as a circle growing out
+ * of the button. Picking the shade the OS already uses is stored as "system",
+ * so the site keeps following the OS from then on.
  */
 export function ThemeToggle() {
 	const mounted = useMounted();
-	const { theme, resolvedTheme, setTheme } = useTheme();
+	const { resolvedTheme, setTheme } = useTheme();
 
-	// The stored mode is only known in the browser, so a same-sized placeholder
-	// stands in until mount rather than guessing and mismatching.
+	// The resolved theme is only known in the browser, so a same-sized
+	// placeholder stands in until mount rather than guessing and mismatching.
 	if (!mounted) {
 		return (
 			<span aria-hidden className={cn(toggleClass, "invisible")}>
-				<Swatch mode="system" />
-				{LABELS.system}
+				<Swatch shade="light" />
+				Light
 			</span>
 		);
 	}
 
-	const current: Mode = ORDER.includes(theme as Mode) ? (theme as Mode) : "system";
-	const next = ORDER[(ORDER.indexOf(current) + 1) % ORDER.length];
+	const shown: Shade = resolvedTheme === "dark" ? "dark" : "light";
+	const next: Shade = shown === "dark" ? "light" : "dark";
 
 	const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-		const nextResolved =
-			next === "system" ? (systemPrefersDark() ? "dark" : "light") : next;
+		const stored = next === osShade() ? "system" : next;
 		const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-		if (
-			nextResolved === resolvedTheme ||
-			reduced ||
-			typeof document.startViewTransition !== "function"
-		) {
-			setTheme(next);
+		if (reduced || typeof document.startViewTransition !== "function") {
+			setTheme(stored);
 			return;
 		}
 
@@ -71,10 +58,10 @@ export function ThemeToggle() {
 			// next-themes applies the class in an effect; set it here as well so the
 			// snapshot taken right after this callback already shows the new theme.
 			const root = document.documentElement;
-			root.classList.toggle("dark", nextResolved === "dark");
-			root.classList.toggle("light", nextResolved === "light");
-			root.style.colorScheme = nextResolved;
-			flushSync(() => setTheme(next));
+			root.classList.toggle("dark", next === "dark");
+			root.classList.toggle("light", next === "light");
+			root.style.colorScheme = next;
+			flushSync(() => setTheme(stored));
 		});
 
 		transition.ready.then(() => {
@@ -98,17 +85,17 @@ export function ThemeToggle() {
 		<button
 			type="button"
 			onClick={onClick}
-			aria-label={`Theme: ${LABELS[current]}. Switch to ${LABELS[next]}`}
+			aria-label={`Switch to ${next} theme`}
 			className={toggleClass}
 		>
-			<Swatch mode={current} />
-			{LABELS[current]}
+			<Swatch shade={shown} />
+			<span className="capitalize">{shown}</span>
 		</button>
 	);
 }
 
-/** Empty for light, filled for dark, half-filled for "follow the system". */
-function Swatch({ mode }: { mode: Mode }) {
+/** Empty for light, filled for dark. */
+function Swatch({ shade }: { shade: Shade }) {
 	return (
 		<span
 			aria-hidden
@@ -117,9 +104,7 @@ function Swatch({ mode }: { mode: Mode }) {
 			<span
 				className={cn(
 					"absolute inset-y-0 right-0 bg-current transition-[left] duration-300",
-					mode === "dark" && "left-0",
-					mode === "system" && "left-1/2",
-					mode === "light" && "left-full",
+					shade === "dark" ? "left-0" : "left-full",
 				)}
 			/>
 		</span>

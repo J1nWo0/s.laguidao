@@ -84,7 +84,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         "h-full antialiased",
       )}
     >
-      <body className="flex min-h-full flex-col">
+      <body suppressHydrationWarning className="flex min-h-full flex-col">
         {/* Entrances are scripted, so without JS everything simply starts visible. */}
         <noscript>
           <style>{`.reveal[data-reveal="pending"],.reveal-stagger[data-reveal="pending"]>*,[data-reveal="pending"] .split-inner{opacity:1;transform:none}`}</style>
